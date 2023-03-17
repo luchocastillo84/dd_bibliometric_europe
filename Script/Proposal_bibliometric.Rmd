@@ -1,0 +1,67 @@
+---
+title: 'Bibliometric Analysis of European Research on Digital Divide: An Exploration   of the Corporate Landscape'
+author:
+  - Luis Carlos Castillo
+subtitle: |
+  | 
+  | University of Urbino
+date: "`r Sys.Date()`"
+output:
+  word_document: 
+    reference_docx: "template_prop.dotx"
+  html_document: default
+  pdf_document: default
+geometry: left = 2.54cm, right = 2.54cm, top = 2.54cm, bottom = 2.54cm
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(here)
+library(bibliometrix)
+library(devtools)
+library(readtext)
+library(tidyr)
+library(bib2df)
+library(readr)
+library(visdat)
+library(stringr)
+library(dplyr)
+library(bibtex)
+library(readxl)
+library(janitor)
+library(naniar)
+library(dimensionsR)
+
+```
+
+#### **Context:**
+
+The emergence of the so-called "digital divide" has brought adverse effects, especially on the actors in society who lack access, literacy, and fluency in digital technologies. Within the extant literature, the digital divide is triggered by different factors. For example, the generational gap, the income and wage disparities, the unbalance between rural and urban at the regional level, and the gap between emerging and developed economies, among others. The European Union has recently launched the Digital Europe program, accompanied by a battery of policies that will not only guide the digital and technological future of European countries but also propose an agenda to bridge the digital divide at different levels. In so doing, it becomes relevant to evaluate the main research contributions, identify the leading academic trends, and determine possible knowledge gaps within the digital divide theme.
+
+#### **Purpose:**
+
+This study aims to examine the intellectual interactions, structural connections, and thematic relationships among European research components regarding the digital divide using different bibliometric techniques such as citation and co-citations analysis, bibliographic coupling, and co-word analysis. At the same time, this work endeavors to explore the corporate digital divide and answer the following research questions. *What are the most influential publications and authors? What are the intellectual structure, linkages, and knowledge foundations within the digital divide? * Understanding the digital divide as a multidimensional issue, *what are the thematic clusters among publications? Is the corporate digital divide considered a gap for future research?*
+
+```{r nrows, include=FALSE}
+MM <- read.csv(here("Data", "Processed", "M_EU.csv"))
+docs <- nrow(MM)
+pymin <- min(MM$PY)
+pymax <- max(MM$PY)
+
+```
+
+#### **Design/Methodology/Approach:**
+
+This investigation will conduct a bibliometric analysis by merging data from three databases (Web of Science, Scopus, and Dimensions), limiting the search to authors with European affiliations within the business, management, economics, technology, and computer science disciplines. This study covers scientific research published between `r pymin` and `r pymax` with a total of `r docs` unique documents, including articles, book chapters, conferences, and proceedings. The results will be obtained by operating the R programming language using the bibliometrics package and the biblioshiny application.
+
+#### **Originality Value:**
+
+The novelty of this study relies on a more comprehensive bibliographical data range on the digital divide by merging data from the Web of Science, Scopus, and Dimensions databases to explore scientific output and the impact of European research in the field. Additionally, it will include the analysis of the most influential research in three different periods (2000-2007; 2008-2014; 2015-2021). Technological advances are continuous and increasingly sophisticated. Thus exploring the most influential research in different periods is pertinent to evaluate the evolution and new findings in the literature. Although there is a broad scope within the literature covering the digital divide, the few studies using the bibliometric method focus mainly on the bibliographic study in health sciences, computer science, and technology. 
+
+
+
+## References
+
+@Aria2017b, @forman2005, @donthu2021, @echchakoui2020, @veugelers2019

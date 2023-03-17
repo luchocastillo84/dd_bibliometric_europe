@@ -1,0 +1,278 @@
+---
+title: 'Data Management Plan'
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: 
+    reference_docx: "sci_paper_urblogo.dotx"
+urlcolor: blue
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(readr)
+library(readxl)
+library(qwraps2)
+library(gridExtra)
+library(kableExtra)
+library(bibliometrix)
+```
+
+## 0 Administrative data
+
+**Version of DMP**: v1.0
+
+**Project title:** *Bibliometric Analysis of European Research on
+Digital Divide: An Exploration of the Corporate Landscape*
+
+**Start and end of project:** 01.11.2022 - 15.02.2023
+
+```{r nrows, include=FALSE}
+MM <- read.csv(here("Data", "Processed", "M_EU.csv"))
+```
+
+**Data summary:** This bibliometric aims to examine the state of the art
+of European research in the field of the digital divide by combining
+data from the Web of Science, Scopus, and Dimensions bibliographic
+platforms. Additionally, this work seeks to explore the corporate
+digital divide. The limit of the search comprises authors with European
+affiliations within the business, management, economics, technology, and
+computer science disciplines. After processing, merging, and cleaning, a
+total of `r nrow(MM)` unique documents were incorporated into the final
+data set, including articles, book chapters, conferences, and
+proceedings. The results will be obtained by operating the R programming
+language using the bibliometrix package and the biblioshiny application.
+
+## 1. Data Description
+
+This research project will use secondary data collected by conducting a
+specific search on the digital divide using the Web of Science, Scopus,
+and Dimensions platforms. The three platforms have different graphic
+user interfaces that delimit the search and the supported formats in
+which bibliographical data is downloaded. The content of bibliographical
+data varies between text, numeric, and integers data types, and the
+formats that generate each platform will be readable using the R
+programming language
+
+## 1.1 Data collection
+
+Before collecting the data, access to the graphical user interfaces of
+each platform was granted through university affiliation. During this
+stage, the search criteria, the queries, and the formats downloaded are
+the following:
+
+```{r wos, include=FALSE}
+wos_file <- c("wos_131222_1_740.txt")
+
+WW <- convert2df(here("Data", # processed data frame for bibliometrics
+                     "Raw", 
+                     wos_file), 
+                dbsource = "wos", 
+                format = "plaintext")
+```
+
+#### Web of Science
+
+This platform allows one to choose the formats and the fields. While
+exporting the data, a *plain text file* was chosen. The custom selection
+used all the Web of Science core collection fields for the record
+content.
+
+-   **Searched Fields:** Keywords and Title
+-   **Searched Text:** "digital divide\*" OR "digital inequalit\*" OR
+    "digital gap\*"
+-   **Document Types:** Articles, proceedings book chapters, review
+    articles and early access
+-   **Web of Science Categories:** Computer science and technology,
+    management, business and economics.
+-   **Region:** Countries in Europe
+-   **Time Frame:** `r min(WW$PY, na.rm = T)` -
+    `r max(WW$PY, na.rm = T)`
+-   **Date of Search:** 10.10.2022
+-   **Total Documents:** `r nrow(WW)`
+-   **Query:** [Go to Web of Science Query
+    Link](https://www.webofscience.com/wos/woscc/summary/a10a1d1b-bcfa-4494-9ed0-75228e2f40e1-6839a671/date-descending/1)
+-   **Downloaded Data Type:** .txt
+-   **Download data and Size:** [eu_wos_1\_500.txt 2.5
+    MB](https://www.dropbox.com/s/qlkh336108iy0nj/eu_wos_1_500.txt?dl=0)
+    and [eu_wos_501_1032.txt 2.8
+    MB](https://www.dropbox.com/s/ppqw2az5mcik5j4/eu_wos_501_1032.txt?dl=0)
+
+### Scopus
+
+This database also allows one to choose the formats and the necessary
+fields to conduct a bibliometric analysis. In this case, all the
+categories of citation information, bibliographical information,
+abstracts, and keywords.
+
+```{r scopus, include=FALSE}
+SS <- convert2df(here("Data",  # processed data frame for bibliometrics 37 columns
+                      "Raw", 
+                      "scopus_131222_1_1047.csv"),
+                 dbsource = "scopus", 
+                 format = "csv")
+```
+
+-   **Searched Fields:** Keywords and Title
+-   **Searched Text:** "digital divide\*" OR "digital inequalit\*" OR
+    "digital gap\*"
+-   **Document Types:** Articles, proceedings, book chapters, review
+    articles, and early access articles.
+-   **Scopus Categories:** Computer science and technology, management,
+    business and economics.
+-   **Region:** Countries in Europe.
+-   **Time Frame:** `r min(SS$PY, na.rm = T)` -
+    `r max(SS$PY, na.rm = T)`
+-   **Date of Search:** 05.10.2022
+-   **Total Documents:** `r nrow(SS)`
+-   **Query:** [Vizualize
+    query](https://www.dropbox.com/s/m53l0v0z1i21kc4/scopus_query.rtf?dl=0)
+-   **Downloaded Data Type:** .csv
+-   **Download data and Size:** [eu_scopus_1\_1786.csv 16.9
+    MB](https://www.dropbox.com/s/fywg0lnvq243zve/eu_scopus_1_1786.csv?dl=0)
+
+### Dimensions
+
+This database has a less developed graphic user interface. Even though
+it lets one choose the format, it does not let one choose the fields.
+However, the search can be customized using the Application Programming
+Interface API.
+
+```{r dim, include=FALSE}
+dim_file <- c("dim_131222_1_882cr.csv",
+              "dim_131222_1_1265cr.csv",
+              "dim_131222_1_1551cr.csv")
+
+DD <- convert2df(here("Data", # raw data frame 
+                     "Raw", 
+                     dim_file), 
+                dbsource = "dimensions", 
+                format = "csv")
+```
+
+-   **Searched Fields:** Title and Abstract.
+-   **Searched Text:** "digital divide\*" OR "digital inequalit\*" OR
+    "digital gap\*"
+-   **Document Types:** Articles, proceedings, and book chapters.
+-   **Dimensions Categories:** (38) Economics, (35) Commerce,
+    Management, Tourism and Services, and (46) Information and Computing
+    Sciences.
+-   **Region:** Countries in Europe.
+-   **Time Frame:** `r min(DD$PY, na.rm = T)` -
+    `r max(DD$PY, na.rm = T)`
+-   **Date of Search:** 14.10.2022
+-   **Total Documents:** `r nrow(DD)`
+-   **Query:** Not available for graphic user interface.
+-   **Downloaded Data Type:** .csv
+-   **Download data and Size:** [dim_1\_1467.csv 8.3
+    MB](https://www.dropbox.com/s/35wfrt4kp9ujoct/dim_1_1467.csv?dl=0)
+    and [dim_1468_3108.csv 3.8
+    MB](https://www.dropbox.com/s/te4ykjln8l6gihu/dim_1468_3108.csv?dl=0)
+
+## 1.2 Data Processing
+
+```{r col_names, include=FALSE}
+ww_col <- ncol(WW)
+ss_col <- ncol(SS)
+dd_col <- ncol(DD)
+mm_col <- ncol(MM)
+
+```
+
+The R programming language environment will be used during the data
+processing stage. After downloading, the raw files (.txt and .csv
+formats) from each platform will be converted into a bibliographic
+database format using the bibliometrix package. The volume of the
+generated data in this repository will be estimated between 0.7 to 1 GB.
+
+After converting the downloaded datasets from the three platforms into
+bibliographic data frames, there were differences in column length and
+names, meaning the three platforms used different codebooks for naming
+the variables. For example, the [Web of Science
+codebook](https://www.dropbox.com/scl/fi/2kw4wge5y7prwfn8i6mzb/col_names_wos.xlsx?dl=0&rlkey=panwseiwrktiut611n6cpu04m)
+contained `r ww_col` variables, the [Scopus
+codebook](https://www.dropbox.com/scl/fi/4ochrul4cu5d0v4xsgrdb/col_names_scopus.xlsx?dl=0&rlkey=milgv2adjegonkom45yfunxeb)
+`r ss_col` variables, and the [Dimensions
+codebook](https://www.dropbox.com/scl/fi/0t01j093rwtsqxozna9dj/col_names_dim.xlsx?dl=0&rlkey=o87k0k0ddy3cy2ga0ugyy0u4k)
+`r dd_col` variables. To solve this problem, first, we followed the [Web
+of Science Core Collection
+codebook](https://support.clarivate.com/ScientificandAcademicResearch/s/article/Web-of-Science-Core-Collection-List-of-field-tags-in-output?language=en_US)
+to homogenize the variable's names. Second, the [bibliometrix
+manual](https://www.bibliometrix.org/vignettes/Data-Importing-and-Converting.html)
+suggests selecting the main variables to conduct a bibliometric
+analysis. As a result, the final bibliographic [data
+frame](https://www.dropbox.com/s/w6y29syjhqs2e88/M_EU.csv?dl=0) contains
+`r mm_col` variables ([see
+codebook](https://www.dropbox.com/scl/fi/ls7et6b55epo5g5t5ecmk/colnames_M.xlsx?dl=0&rlkey=j0we18gy90mnnlfawnp00jlxq)).
+
+This
+[script](https://github.com/luchocastillo84/bibliometrix_dd_europe/blob/master/Script/Biblio_data_bases.R)
+contains the R-Studio workflow used to process, clean, and merge the
+bibliographic data frames from the three sources.
+
+## 2. Documentation and Data Quality
+
+The metadata creation will follow the Data Documentation Initiative DDI
+standards, including a codebook that describes the data and the variable
+types. To guarantee replicability both in the data collection and
+output, the reuse of data, and high-quality results, the following
+measures will be taken: pretests, data validation, peer review of data,
+repeat measurements, and the use of software and digital tools. This
+repository,
+[bibliometric_digital_divide_Europe](https://github.com/luchocastillo84/bibliometrix_dd_europe),
+will follow the R-Studio workflow using the bibliometrix package and the
+biblioshiny application for data processing and analysis. An ordered
+structure of the folders with documented code will also be managed using
+the version control offered by GitHub to track changes and manipulate
+data responsibly.
+
+## 3. Storage and technical archiving
+
+This research project does not contain any sensible data; thus,
+throughout the project duration, data will be stored on the
+collaborative workspace R-Studio, GitHub, and Dropbox.
+
+## 4. Responsibilities and resources
+
+This bibliometric study is the initial part of a research agenda
+proposed by the principal researcher as academic work, which will be
+presented at the end of his doctoral studies. The principal investigator
+will collect, analyze, present, and write the study results in a
+scientific article format. In addition, this project will be oriented
+and guided by the supervisor and the co-supervisor.
+
+### Principal Investigator and author of the DMP:
+
+Luis Carlos Castillo-Tellez
+
+University of Urbino
+
+[l.castillotellez\@campus.uniurb.it](mailto:l.castillotellez@campus.uniurb.it){.email}
+
+[ORCID](https://orcid.org/my-orcid?orcid=0000-0003-2041-4596)
+
+### Supervisor:
+
+Francesco Vidoli
+
+University of Urbino
+
+[francesco.vidoli\@uniurb.it](mailto:francesco.vidoli@uniurb.it){.email}
+
+[ORCID](https://orcid.org/0000-0003-4125-9337)
+
+### Co-Supervisor:
+
+Michael Rochlitz
+
+University of Bremen
+
+[michael.rochlitz\@uni-bremen.de](mailto:michael.rochlitz@uni-bremen.de){.email}
+
+[ORCID](https://orcid.org/0000-0001-8652-8874)
