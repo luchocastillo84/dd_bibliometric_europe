@@ -22,7 +22,9 @@ library(qdap)
 #### Load environment ####
 load(here("Script", "Environments", "Biblio_data_bases.RData"))
 
-#### Web of Science ####
+################################################################################
+################################### Web of Science##############################
+################################################################################
 
 # Creating a vector with two files downloaded by the Web of Science data base
 wos_file <- c("wos_020123_1_500.txt", "wos_010223_501_1148.txt")
@@ -80,7 +82,9 @@ W_by_DT <- W %>% # dist contains a summary of documents type DT by unique DOI an
         adorn_totals("row") # total 
 
 
-#### Scopus ####
+################################################################################
+################################### Scopus #####################################
+################################################################################
 
 raw_S <- convert2df(here("Data", # raw data frame
                               "Raw", 
@@ -99,13 +103,19 @@ S <- metaTagExtraction(S,
                         Field = "AU_CO", 
                         sep = ";")
 
+S <- metaTagExtraction(S, 
+                       Field = "AU_UN", 
+                       sep = ";")
 
+S <- S %>% replace_with_na_all(condition = ~. == "") # converting "" into NA within the df
+S <- S %>% replace_with_na_all(condition = ~. == "NA") # converting "" into NA within the df
+vis_miss(S)
 S <- S %>% mutate("SC" = "", # add research areas (empty column) 
                   "WC" = "", # add WoS categories (empty column)
                   "Z9" = "") %>% # add Total Times Cited Count (empty column) total 42 columns
            rename("TI" = "TI", # renaming title according to WoS tags
                   "ID" = "ID",# keywords
-                  "PU" = "Publisher", 
+                  "PU" = "PU", 
                   "BN" = "URL")
 
 PF<- rep("sco", nrow(S)) # PF means platform to distinguish docs from scopus and dimensions 39 columns
@@ -132,21 +142,25 @@ countrydf <-  s_au_country %>%
   mutate(split = map_chr(.$split, ~paste(.x, collapse = ";"))) # recombine
 
 
-S_by_DT <- S %>% # dist contains a summary of documents type DT by unique DOI and BN
-  group_by(DT) %>% # group by document type
-  summarize(count = n(), # summary by count by DT 
-            DOI = n_distinct(DI), # unique DOI
-            BN = n_distinct(BN), # unique book number
-            na_doi = sum(is.na(DI)), # number of NA in DOI
-            na_bn = sum(is.na(BN)), #  number of NA in BN
-            TI = n_distinct(TI)) %>%  # unique titles 
-  adorn_totals("row") # total 
+# S_by_DT <- S %>% # dist contains a summary of documents type DT by unique DOI and BN
+#   group_by(DT) %>% # group by document type
+#   summarize(count = n(), # summary by count by DT 
+#             DOI = n_distinct(DI), # unique DOI
+#             BN = n_distinct(BN), # unique book number
+#             na_doi = sum(is.na(DI)), # number of NA in DOI
+#             na_bn = sum(is.na(BN)), #  number of NA in BN
+#             TI = n_distinct(TI)) %>%  # unique titles 
+#   adorn_totals("row") # total 
 
-DIsco <- data.frame(DIsco = paste("OR"," ", "DOI", "(",all_sco$DI,")", sep = ""))
-DIsco[c(1,2)]
-write_delim(DIsco,  here("Data","Processed", "DIsco.txt"), delim = "")
+# DIsco <- data.frame(DIsco = paste("OR"," ", "DOI", "(",all_sco$DI,")", sep = ""))
+# DIsco[c(1,2)]
+# write_delim(DIsco,  here("Data","Processed", "DIsco.txt"), delim = "")
 
-#### Dimensions ####
+
+################################################################################
+################################### Dimensions #################################
+################################################################################
+
 # https://cran.r-project.org/web/packages/dimensionsR/vignettes/A_Brief_Example.html
 # Creating a vector with two files downloaded by the Dimensions data base
 dim_file <- c("dim_131222_1_882cr.csv",
@@ -303,6 +317,7 @@ D <- D %>% replace_with_na_all(condition = ~. == "NA") # converting "" into NA w
 vis_miss(D)
 col_i <- which(colnames(D) %in% c("SO", "C1", "DE", "ID", "RP", "SC", "FU")) # get the column indexes
 D <- D[ , -col_i] # excluding the column indexes from D
+D1_SO <- D1_SO %>%  distinct(DI, .keep_all = T)
 D1_D <- left_join(D, D1_SO, by= "DI", keep= F) # joining the API data with the GUI data
 # col_names_M <- colnames(M) # getting the column names of M
 D <- D1_D[, col_names_M] # reorganizing the columns joined in D1_D
