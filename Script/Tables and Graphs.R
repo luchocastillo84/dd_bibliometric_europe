@@ -829,8 +829,7 @@ summary_dfcite_t <- df2cite_tot %>% group_by(Author) %>%
 
 
 c_bind <- ggplot(df2cite_tot, aes(x= Author, y=year, round(TCpY,2))) +
-  geom_point(aes(alpha=TCpY,size = TC), color="dodgerblue4")+ 
-  geom_vline(xintercept = c(2008, 2015), linetype = "dotted", color = "blue") +
+  geom_point(aes(alpha=TCpY,size = TC), color="dodgerblue4")+
   scale_size(range=c(2,6))+
   scale_alpha(range=c(0.3,1))+
   scale_y_continuous(breaks = seq(min(df2cite_tot$year),max(df2cite_tot$year), by=2))+
@@ -854,7 +853,8 @@ c_bind <- ggplot(df2cite_tot, aes(x= Author, y=year, round(TCpY,2))) +
                                  group=Author),size=1.0, color="firebrick4", alpha=0.3 )+
   coord_flip() + geom_text(data=summary_dfcite_t, aes(x=Author, y=Inf, label= total_TC),
                            hjust=1, vjust=0.5, size=2.5, color="grey30") +
-  scale_x_discrete(limits = rev(levels(df2cite_tot$Author))) 
+  scale_x_discrete(limits = rev(levels(df2cite_tot$Author))) + 
+  geom_vline(aes(xintercept = 2010), linetype = "dotted", color = "blue") 
 
 c_bind
   
