@@ -238,7 +238,7 @@ netPlot <-
     V(bsk.network)$label.dist = 0.7
     V(bsk.network)$frame.color = adjustcolor('black', alpha)
     V(bsk.network)$color <- adjustcolor(V(bsk.network)$color, alpha)
-    V(bsk.network)$label.color <- adjustcolor('black', min(c(1, alpha + 0.1)))
+    V(bsk.network)$label.color <- adjustcolor('black', min(c(1, alpha + 0.8)))
     V(bsk.network)$label.font = 2
     V(bsk.network)$label = LABEL
     
