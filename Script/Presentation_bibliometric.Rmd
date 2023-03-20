@@ -4,8 +4,10 @@ author: "Luis Carlos Castillo"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 output:
   beamer_presentation:
+    keep_tex: true
+    citation_package: natbib
     includes:
-      in_header: mystyle1.tex
+      in_header: mystyle2.tex
   slidy_presentation: default
   powerpoint_presentation: default
 institute: |
@@ -15,9 +17,11 @@ editor_options:
   markdown:
     wrap: 72
 bibliography: references.bib
+natbiboptions: round
 header-includes:
-  - \AtBeginEnvironment{CSLReferences}{\tiny}
-biblio-style: apalike
+  - \usepackage{etoolbox}
+  - \AtBeginEnvironment{thebibliography}{\scriptsize}
+biblio-style: "apalike"
 ---
 
 ```{r setup, echo=FALSE}
@@ -99,9 +103,10 @@ source("netplot_func.R")
 7.  Science Mapping
 
     1.  Citations Analysis
-    2.  Co-citations Analysis
-    3.  Bibliographic Coupling
-    4.  Co-word Analysis
+    2. Similarity Measures
+        1.  Co-citations Analysis
+        2.  Bibliographic Coupling
+        3.  Co-word Analysis
 
 # 1. Motivation
 
@@ -330,7 +335,7 @@ prod <- MM %>% group_by(PY) %>%
 grid.arrange(prod, cite, nrow= 1)
 ```
 
-# 6. Performance Analysis I
+# 6. Performance Analysis II
 
 \vspace{0.5cm}
 
@@ -341,7 +346,7 @@ load(here("Script", "Environments",  "Tables&Graphs.RData"))
 p
 ```
 
-# 6. Performance Analysis
+# 6. Performance Analysis III
 
 ## 6.2. Trends in authors' citations over time
 
@@ -351,18 +356,18 @@ load(here("Script", "Environments",  "Tables&Graphs.RData"))
 c_bind
 ```
 
-# 6. Performance Analysis
+# 6. Performance Analysis VI
 
-## 6.2. Authors II
+## 6.2. Authors
 
 ```{r H-index AU chart, include=TRUE}
 load(here("Script", "Environments",  "Tables&Graphs.RData"))
 H_au
 ```
 
-# 6. Performance Analysis
+# 6. Performance Analysis V
 
-## 6.3. Articles I
+## 6.3. Articles 
 
 ```{r Influence of AU table , echo=FALSE, warning=FALSE}
 influ_arti_bind <- read_csv(here("Data", "Processed", "influ_arti_bind.csv"), show_col_types = F)
@@ -378,22 +383,8 @@ kable_styling(bootstrap_options = "striped", full_width = F, font_size = 5) %>%
   add_footnote(c("Source: Author's elaboration", "TC: Times Cited"), notation ="number")
 ```
 
-# 6. Performance Analysis
 
-## 6.3. Articles II
-
-```{r Most cited refs, include=T}
-most_Lcr <- read_csv(here("Data", "Processed", "most_Lcr.csv"), show_col_types = F)
-
-kbl(most_Lcr, "latex",  caption = "Most Cited References") %>% 
-   column_spec(2, latex_column_spec = "p{9cm}") %>% 
-  # column_spec(4, latex_column_spec = "p{5cm}") %>% 
-kable_styling(bootstrap_options = "striped", full_width = F, font_size = 5,
-              latex_options = "hold_position") %>%
-  row_spec(0, bold=T) %>% add_footnote(c("Source: Author's elaboration", "TC: Times Cited"), notation ="number") 
-```
-
-# 6. Performance Analysis
+# 6. Performance Analysis VI
 
 ## 6.4. Journals
 
@@ -410,7 +401,7 @@ kable_styling(bootstrap_options = "striped", full_width = F, font_size = 8) %>%
 
 ```
 
-# 6. Performance Analysis
+# 6. Performance Analysis VII
 
 ## 6.5. Affiliations/ Universities
 
@@ -429,7 +420,7 @@ kable_styling(bootstrap_options = "striped", full_width = F, font_size = 8) %>%
 
 ```
 
-# 6. Performance Analysis
+# 6. Performance Analysis VIII
 
 ## 6.5. Countrys' Performance
 
@@ -439,9 +430,25 @@ grid.arrange(gg1,gg.mid,gg2,ncol=3,widths=c(4/9,1/6,4/9))
 
 ```
 
-# 7. Science Mapping
+# 7. Science Mapping I
 
-## Similarity measures
+## 7.1. Citation Analysis
+
+```{r Most cited refs, include=T}
+most_Lcr <- read_csv(here("Data", "Processed", "most_Lcr.csv"), show_col_types = F)
+
+kbl(most_Lcr, "latex",  caption = "Most Cited References") %>% 
+   column_spec(2, latex_column_spec = "p{9cm}") %>% 
+  # column_spec(4, latex_column_spec = "p{5cm}") %>% 
+kable_styling(bootstrap_options = "striped", full_width = F, font_size = 5,
+              latex_options = "hold_position") %>%
+  row_spec(0, bold=T) %>% add_footnote(c("Source: Author's elaboration", "TC: Times Cited"), notation ="number") 
+```
+
+
+# 7. Science Mapping II
+
+## 7.2. Similarity measures
 
 Following @kammerer2021
 
@@ -458,9 +465,12 @@ Following @kammerer2021
 \includegraphics[width=0.6\textwidth]{pic_1.png}
 \end{center}
 ```
-# 7. Science Mapping
+
+# 7. Science Mapping III
 
 \vspace{0.5cm}
+
+### 7.2.1. Co-citations Analyisis
 
 This network shows the emergence of the literature on the digital divide
 
@@ -472,11 +482,11 @@ set.seed(30100)
 net=netPlot(CC1_mat, n = 35, Title = "Co-Citation Network,  2000 - 2007", # Louvain
                 type = "auto", size.cex=TRUE, size=20, 
                 remove.multiple=FALSE, labelsize=0.9,edgesize = 4, edges.min=1, label = T,
-            cluster = "optimal", curved = F )
+            cluster = "louvain", curved = F )
 
 ```
 
-# 7. Science Mapping
+# 7. Science Mapping IV
 
 ```{r Co_cite_P2,include=T}
 
@@ -491,16 +501,71 @@ net=netPlot(CC2_mat, n = 25, Title = "Co-Citation Network, 2008 - 2015",
 
 ```
 
-# 7. Science Mapping
+# 7. Science Mapping III
 
 ```{r Co_cite_P3,include=T}
 
+load(here("Script", "Environments",  "Matrix_4_Net_env.RData"))
+
 set.seed(1003)
-net=netPlot(CC3_mat, n = 30, Title = "Co-Citation Network P3 louvain", 
+net=netPlot(CC3_mat, n = 30, Title = "Co-Citation Network, 2016 - 2022", 
             type = "auto", size.cex=TRUE, size=20, label.color = F,
             remove.multiple=FALSE, labelsize=0.7,edgesize = 4, edges.min=1, label = T,
             cluster = "louvain")
 
 ```
 
+# 7. Science Mapping IV
+
+## 7.2.2. Bibliographic Coupling Analysis
+
+```{r Bib_coup_P1,include=T}
+
+load(here("Script", "Environments",  "Matrix_4_Net_env.RData"))
+
+set.seed(9001)
+net=netPlot(BC1_mat, n = 30, Title = "Bibliographic Copling Network, 2000-2007", 
+            type = "fruchterman", size.cex=TRUE, size=20, 
+            remove.multiple=FALSE, labelsize=0.7,edgesize = 4, edges.min=1, label = T,
+            cluster = "louvain", remove.isolates = T)
+
+```
+
+
+# 7. Science Mapping V
+
+```{r Bib_coup_P2,include=T}
+
+load(here("Script", "Environments",  "Matrix_4_Net_env.RData"))
+
+set.seed(90001)
+net=netPlot(BC2_mat, n = 30, Title = "Bibliographic Copling Network, 2008-2015", 
+            type = "fruchterman", size.cex=TRUE, size=15, 
+            remove.multiple=FALSE, labelsize=0.7,edgesize = 4, edges.min=1, label = T,
+            cluster = "louvain")
+
+```
+
+
+# 7. Science Mapping V
+
+```{r Bib_coup_P3,include=T}
+
+load(here("Script", "Environments",  "Matrix_4_Net_env.RData"))
+
+set.seed(690001)
+net=netPlot(BC3_mat, n = 30, Title = "Bibliographic Copling Network, 2016-2022", 
+            type = "fruchterman", size.cex=TRUE, size=15, 
+            remove.multiple=FALSE, labelsize=0.7,edgesize = 4, edges.min=1, label = T,
+            cluster = "louvain")
+
+```
+
+# 7. Science Mapping V
+
+## 7.2.2. Co-word Analysis
+
+
 # References {.allowframebreaks}
+
+<div id="refs"></div>
