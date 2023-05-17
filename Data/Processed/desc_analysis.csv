@@ -1,10 +1,9 @@
 Details,Period.1,Period.2,Period.3,Total
 Timespan,2000 - 2007,2008 - 2015,2016 - 2022,2000 - 2022
-Journals,123,301,533,848
-Annual growth rate,71.14,3.94,15.77,26.72
-Average citations per doc,42.87,23.29,10.37,18.49
-Total published documents,202,523,916,1641
-Articles,159,354,748,1261
+Journals,123,284,530,832
+Annual growth rate,71.14,3.74,15.67,26.69
+Average citations per doc,42.87,24.27,10.36,18.74
+Total published documents,202,497,910,1609
+Articles,159,348,743,1250
 Book chapters,4,34,17,55
-Porceeding papers,35,93,107,235
-Conference papers,4,42,44,90
+Proc & Conf papers,39,115,150,304
