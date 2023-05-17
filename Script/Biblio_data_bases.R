@@ -335,7 +335,7 @@ WD <- rbind(W, DW) # binding WOS and Dimensions
 
 SDW <- anti_join(S, WD, by= c("DI", "TI")) # filtering docs that only appear in SCOPUS and !WOS & DIM
 
-# B is the name of the df that binds WOS, SCO and DIM
+# B is the name of the df that (B) binds WOS, SCO and DIM
 B <-  rbind(WD, SDW) # binding the three data bases into B
 B <- B %>% replace_with_na_all(condition = ~. == "") # converting "" into NA within the D
 B <- B %>% replace_with_na_all(condition = ~. == "NA") # converting "" into NA within the D
@@ -381,63 +381,8 @@ write_csv(B, file = here("Data",
                          "Processed", 
                          "B_EU.csv")) # writing as CSV to make readable in biblioshiny
 
-################################################################################
-####################  BINDING THE CLEAN CR FROM WOS, SCO AND DIM ###############
-################################################################################
-
-M <- rbind(all_isi, all_sco, all_dim)
-
-M <- M %>% replace_with_na_all(condition = ~. == "") # converting "" into NA within the df
-M <- M %>% replace_with_na_all(condition = ~. == "NA") # converting "" into NA within the df
-vis_miss(M)
-
-M <- M %>% filter(!is.na(CR)) # filter out NA values in the CR column
-
-M_AU<- # adds a SO column
- trimws(unlist(lapply(strsplit(M$AU,
-                               ';', # separated by comma
-                               fixed = TRUE),
-                      '[', 1))) # extract the third string in the array
-
-M$DI <- tolower(M$DI)
-M_doi <- paste("DOI", M$DI)
 
 
-M$SRDI <- paste(M_AU, M$PY, ifelse(M_doi == "DOI NA", "", M_doi), sep = ", ")
-M$SRDI <- trimws(M$SRDI, whitespace = ", ")
-
-
-rownames(M) <- M$SRDI # using SR as row names
-
-write_csv(M, file = here("Data", 
-                         "Processed", 
-                         "M_EU.csv")) # writing as CSV to make readable in biblioshiny
-
-N <- M
-
-N$DB <- "ISI"
-N$SR <- N$SRDI
-rownames(N) <- N$SRDI # using SR as row names
-
-write_csv(N, file = here("Data", 
-                         "Processed", 
-                         "N_EU.csv")) # writing as CSV to make readable in biblioshiny
-class(N) <- c("bibliometrixDB", "data.frame")
-save(N, file = "N_EU.rda")
-
-N$LABEL <- paste(N_AU, N$PY, sep = ", ")
-N$LABEL <- LABEL
-n_1p <- N %>% filter(PY <= 2008)
-n_1p = n_1p[order(n_1p$PY), ]
-save(n_1p, file = "n1_EU.rda")
-
-n_2p <- N %>% filter(PY > 2008 & PY <= 2015) # sub-setting the second period
-n_2p = n_2p[order(n_2p$PY), ]
-save(n_2p, file = "n2_EU.rda")
-
-
-n_3p <- N %>% filter(PY > 2016 & PY <= 2022) # sub-setting the second period
-save(n_3p, file = "n3_EU.rda")
 
 
 
