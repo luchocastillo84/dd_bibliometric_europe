@@ -1,6 +1,7 @@
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
   ignorenonframetext,
@@ -143,13 +144,17 @@
 \hypersetup{
   pdftitle={Bibliometric Analysis of European Research on Digital Divide: An Exploration of the Corporate Landscape},
   pdfauthor={Luis Carlos Castillo},
-  hidelinks,
+  colorlinks=true,
+  linkcolor={myblue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
   pdfcreator={LaTeX via pandoc}}
 
 \title{Bibliometric Analysis of European Research on Digital Divide: An
 Exploration of the Corporate Landscape}
 \author{Luis Carlos Castillo}
-\date{20 March 2023}
+\date{16 May 2023}
 \institute{University of Urbino\\
 Ph.D.~Program in Global Studies}
 
@@ -160,11 +165,11 @@ Ph.D.~Program in Global Studies}
 \protect\hypertarget{content-i}{}
 \begin{enumerate}
 \item
+  Digital Divide Overview
+\item
   Motivation
 \item
-  Objectives
-\item
-  Digital Divide Overview
+  Objectives and Research Questions
 \item
   Data
 \item
@@ -214,74 +219,12 @@ Ph.D.~Program in Global Studies}
       Co-word Analysis
     \end{enumerate}
   \end{enumerate}
+\item
+  Conclusions
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{1. Motivation}
-\protect\hypertarget{motivation}{}
-\begin{itemize}
-\item
-  The ubiquitous use of digital technologies has transformed many
-  aspects of society and the economy, bringing potential benefits and
-  drawbacks.
-\item
-  The Digital Europe program and the agenda to bridge the digital
-  divide.
-\item
-  The few studies using the bibliometric method focus mainly on health
-  sciences, computer science, and technology.
-\item
-  Data availability from three platforms containing references and
-  citations from academic journals has stimulated this research
-  initiative.
-\end{itemize}
-\end{frame}
-
-\begin{frame}{2. Objectives and Research Questions I}
-\protect\hypertarget{objectives-and-research-questions-i}{}
-\begin{block}{Objectives}
-\protect\hypertarget{objectives}{}
-\begin{itemize}
-\item
-  Understand the intellectual structure within the domain of the digital
-  divide.
-\item
-  Examine European research components' intellectual interactions,
-  structural connections, and thematic relationships.
-\item
-  Explore the corporate digital divide among the collected corpus and
-  identify trends and patterns within the literature.
-\end{itemize}
-\end{block}
-\end{frame}
-
-\begin{frame}{2. Objectives and Research Questions II}
-\protect\hypertarget{objectives-and-research-questions-ii}{}
-\begin{block}{Research Questions}
-\protect\hypertarget{research-questions}{}
-\begin{itemize}
-\item
-  What have been the main trends and shifts in the focus of European
-  research on the digital divide over time?
-\item
-  Which are the most prominent authors and publications in the field?
-\item
-  How do the intellectual interactions, structural connections, and
-  thematic relationships among European research components on the
-  digital divide shape the current state of knowledge in this field?
-\item
-  What are the key themes and subtopics related to the digital divide in
-  European research, and how are they grouped or clustered in the
-  literature?
-\item
-  How is the corporate digital divide addressed in European research on
-  the digital divide, and what areas have been largely unexplored in
-  this field?
-\end{itemize}
-\end{block}
-\end{frame}
-
-\begin{frame}{3. The Digital Divide Overview I}
+\begin{frame}{1. The Digital Divide Overview I}
 \protect\hypertarget{the-digital-divide-overview-i}{}
 \begin{itemize}
 \tightlist
@@ -290,7 +233,7 @@ Ph.D.~Program in Global Studies}
   disparities.
 \item
   The interaction with other existing gaps such as income, education,
-  gender, generational, and regional, among others \citep{ragnedda2017}.
+  gender, age, and regional, among others \citep{ragnedda2017}.
 \item
   The evolution of the concept has pointed out the phenomenon's
   complexity and the effects on the different layers of society and the
@@ -298,7 +241,7 @@ Ph.D.~Program in Global Studies}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{3. The Digital Divide Overview II}
+\begin{frame}{1. The Digital Divide Overview II}
 \protect\hypertarget{the-digital-divide-overview-ii}{}
 \begin{itemize}
 \tightlist
@@ -309,10 +252,10 @@ Ph.D.~Program in Global Studies}
   \item
     \textbf{The first wave:} Physical access to technology
     -\textgreater{} possession of computers and access to the internet
-    \citep{vandijk2003}.
+    \citep{norris2001, james2002, castells2003}.
   \item
     \textbf{The second wave:} Usage of digital technologies and skills
-    \citep{vandijk2006}.
+    \citep{hargittai2002b, vandijk2005b, vandijk2006c, vandeursen2011c}.
   \item
     The divide is not exclusively a matter of access or possession of
     technology. It encloses the ability to effectively search, access,
@@ -321,7 +264,7 @@ Ph.D.~Program in Global Studies}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{3. The Digital Divide Overview III}
+\begin{frame}{1. The Digital Divide Overview III}
 \protect\hypertarget{the-digital-divide-overview-iii}{}
 \begin{itemize}
 \tightlist
@@ -340,14 +283,14 @@ Ph.D.~Program in Global Studies}
     data-driven market to improve personal and professional aspects
     \citep{ragnedda2017}.
   \item
-    van Deursen et al.~(2015) highlight the disparities from the
-    tangible outcomes gained from different forms of access and usage of
-    digital technologies.
+    The disparities from the tangible outcomes gained from different
+    forms of access and usage of digital technologies
+    \citep{vandeursen2015}.
   \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{3. The digital divide overview VI}
+\begin{frame}{1. The digital divide overview VI}
 \protect\hypertarget{the-digital-divide-overview-vi}{}
 \begin{block}{The corporate landscape}
 \protect\hypertarget{the-corporate-landscape}{}
@@ -357,47 +300,76 @@ Ph.D.~Program in Global Studies}
   Digital revolution -\textgreater{} different aspects of daily
   activities -\textgreater{} how we conduct business.
 \item
-  The corporate digital divide is the disparity in digital capabilities
-  and resources between businesses that can effectively use DT and those
-  that struggle to access and use it \citep{shakina2021}.
+  Disparity in digital capabilities and resources among businesses
+  \citep{shakina2021}.
 \item
-  The corporate digital divide occurs at the regional, industry-type,
-  and business-size levels \citep{pejicbach2013}. Usage gap
-  \citep{pliskin2006}.
+  The corporate digital divide is a topic that remains under-explored
+  \citep{pejicbach2013, shakina2021}.
+\item
+  Understanding and addressing the divide, policymakers, and businesses
+  owners can target their efforts to ensure inclusive digital
+  transformation.
 \end{itemize}
 \end{block}
 \end{frame}
 
-\begin{frame}{3. The digital divide overview VI}
-\protect\hypertarget{the-digital-divide-overview-vi-1}{}
-\begin{block}{The corporate landscape: research in Europe}
-\protect\hypertarget{the-corporate-landscape-research-in-europe}{}
+\begin{frame}{2. Motivation}
+\protect\hypertarget{motivation}{}
 \begin{itemize}
-\tightlist
 \item
-  Out of 1641 articles retrieved, a second search within this sample
-  found 32 articles addressing the corporate digital divide.
+  Investigating the transformative effects of digital technologies on
+  society and economy, while highlighting both opportunities and
+  challenges.
 \item
-  Period 2000-2007: refers to the digital gap among firms sizes,
-  especially in the access to - ICT and the implementation of
-  e-business.
+  Aligning with the Digital Europe program's vision by devising
+  strategies to bridge the digital divide effectively.
+\item
+  Diversifying bibliometric research by extending its application beyond
+  health sciences, computer science, and technology to understand the
+  digital divide.
+\item
+  Harnessing the power of comprehensive data from three leading academic
+  platforms to generate insightful and actionable findings on the
+  digital divide.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{3. Objectives and Research Questions I}
+\protect\hypertarget{objectives-and-research-questions-i}{}
+\begin{block}{Objectives}
+\protect\hypertarget{objectives}{}
+\begin{itemize}
+\item
+  Understand the intellectual structure within the domain of the digital
+  divide.
+\item
+  Examine the intellectual interactions, and thematic relationships of
+  European research components.
+\item
+  Explore the corporate digital divide among the collected corpus and
+  identify trends and patterns within the literature.
 \end{itemize}
 \end{block}
 \end{frame}
 
-\begin{frame}{3. The digital divide overview VII}
-\protect\hypertarget{the-digital-divide-overview-vii}{}
-\begin{block}{The corporate landscape: research in Europe}
-\protect\hypertarget{the-corporate-landscape-research-in-europe-1}{}
+\begin{frame}{3. Objectives and Research Questions II}
+\protect\hypertarget{objectives-and-research-questions-ii}{}
+\begin{block}{Research Questions}
+\protect\hypertarget{research-questions}{}
 \begin{itemize}
-\tightlist
 \item
-  Period 2008-2015: the focus shifted to analyzing firm readiness for
-  digital technologies and skills. It also identified the factors that
-  contribute to the digital divide among businesses.
+  Q1: How have the main trends, focus shifts, and key themes in European
+  research on the digital divide evolved over time, and how do they
+  reflect the current state of knowledge in this field?
 \item
-  Period 2000-2022: emphasize digital skills and the advantages of DT.
-  It also shows evidence from different countries.
+  Q2: What are the intellectual interactions and thematic relationships
+  among European research components on the digital divide, and how do
+  they contribute to the identification of core subtopics and literature
+  clusters?
+\item
+  Q3: How are European studies addressing the corporate digital divide,
+  and which unexplored topics within this domain warrant further
+  examination?
 \end{itemize}
 \end{block}
 \end{frame}
@@ -415,10 +387,11 @@ Ph.D.~Program in Global Studies}
   ``digital gap*''
 \item
   The sample includes articles, book chapters, conferences, and
-  proceedings.
+  proceeding papers.
 \item
-  Authors with European affiliations within the business, management,
-  economics, technology, and computer science disciplines were included
+  Authors with European affiliations within the \textbf{business,
+  management, economics, technology, and computer science} disciplines
+  were included
 \end{itemize}
 \end{frame}
 
@@ -426,31 +399,33 @@ Ph.D.~Program in Global Studies}
 \protect\hypertarget{data-ii}{}
 \begin{itemize}
 \item
-  After conducting a thorough data cleaning, a total of 1641 unique
+  After conducting a thorough data cleaning, a total of 1609 unique
   documents from 2000 to 2022 were incorporated.
 \item
-  To track the evolution of the digital divide literature, the data was
-  divided into three periods: 2000-2007, 2008-2015, and 2016-2022.
-\item
-  Document distribution
+  Number of Documents by Database
 
   \begin{itemize}
   \tightlist
   \item
     WoS:946
   \item
-    Scopus: 286
+    Scopus: 254
   \item
     Dimensions: 409
   \end{itemize}
 \item
-  The R programming language environment was used to carry out the
-  analysis.
+  To track the evolution of the digital divide literature, the data was
+  divided into three periods: 2000-2007, 2008-2015, and 2016-2022.
+\item
+  The R programming language environment(bibliometrix, igraph packages)
+  was used to carry out the analysis.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{5. Bibliometric Analysis I}
-\protect\hypertarget{bibliometric-analysis-i}{}
+\begin{frame}{5. Methodology I}
+\protect\hypertarget{methodology-i}{}
+\begin{block}{Bibliometric Analysis}
+\protect\hypertarget{bibliometric-analysis}{}
 Following \citet{donthu2021}, \citet{Aria2017}, \citet{ellegaard2015}
 and \citet{Bornmann2015} bibliometric analysis:
 
@@ -461,51 +436,29 @@ and \citet{Bornmann2015} bibliometric analysis:
   data and plays a vital role in evaluating research output.
 \item
   This technique allows researchers to uncover emerging trends
-  identifying knowledge gaps in specific domains.
-\item
-  Is useful when analyzing a significant quantity of documents.
+  identifying knowledge gaps in specific domains and analyze a
+  significant quantity of documents .
 \item
   It offers three types of analysis: performance analysis, science
   mapping, and network analysis.
 \end{itemize}
+\end{block}
 \end{frame}
 
-\begin{frame}{5. Bibliometric Analysis II}
-\protect\hypertarget{bibliometric-analysis-ii}{}
-\begin{block}{Descriptive Analysis}
-\protect\hypertarget{descriptive-analysis}{}
-\begin{table}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}{l|l|l|l|l}
-\hline
-\textbf{Details} & \textbf{Period.1} & \textbf{Period.2} & \textbf{Period.3} & \textbf{Total}\\
-\hline
-Timespan & 2000 - 2007 & 2008 - 2015 & 2016 - 2022 & 2000 - 2022\\
-\hline
-Journals & 123 & 301 & 533 & 848\\
-\hline
-Annual growth rate & 71.14 & 3.94 & 15.77 & 26.72\\
-\hline
-Average citations per doc & 42.87 & 23.29 & 10.37 & 18.49\\
-\hline
-Total published documents & 202 & 523 & 916 & 1641\\
-\hline
-Articles & 159 & 354 & 748 & 1261\\
-\hline
-Book chapters & 4 & 34 & 17 & 55\\
-\hline
-Porceeding papers & 35 & 93 & 107 & 235\\
-\hline
-Conference papers & 4 & 42 & 44 & 90\\
-\hline
-\end{tabular}}
-\end{table}
+\begin{frame}{5. Methodology II}
+\protect\hypertarget{methodology-ii}{}
+\vspace{0.5cm}
+
+\begin{block}{Distribution of Document Types Across Time Periods}
+\protect\hypertarget{distribution-of-document-types-across-time-periods}{}
+\includegraphics{Presentation_bibliometric_files/figure-beamer/doc types-1.pdf}
 \end{block}
 \end{frame}
 
 \begin{frame}{6. Performance Analysis I}
 \protect\hypertarget{performance-analysis-i}{}
+Is a descriptive interpretation of research constituents.
+
 \begin{block}{6.1. Publications vs Citations}
 \protect\hypertarget{publications-vs-citations}{}
 \vspace{0.5cm}
@@ -514,37 +467,28 @@ Conference papers & 4 & 42 & 44 & 90\\
 \end{block}
 \end{frame}
 
-\begin{frame}{6. Performance Analysis I}
-\protect\hypertarget{performance-analysis-i-1}{}
+\begin{frame}{6. Performance Analysis II}
+\protect\hypertarget{performance-analysis-ii}{}
 \vspace{0.5cm}
 
-\begin{block}{6.2. Evolving patterns in authors' scientific production
-over time.}
-\protect\hypertarget{evolving-patterns-in-authors-scientific-production-over-time.}{}
+\begin{block}{6.2. Authors' publications patterns over time.}
+\protect\hypertarget{authors-publications-patterns-over-time.}{}
 \includegraphics{Presentation_bibliometric_files/figure-beamer/Prod of AU-1.pdf}
 \end{block}
 \end{frame}
 
-\begin{frame}{6. Performance Analysis}
-\protect\hypertarget{performance-analysis}{}
-\begin{block}{6.2. Trends in authors' citations over time}
-\protect\hypertarget{trends-in-authors-citations-over-time}{}
+\begin{frame}{6. Performance Analysis III}
+\protect\hypertarget{performance-analysis-iii}{}
+\begin{block}{6.2. Trends in authors' citations across time periods}
+\protect\hypertarget{trends-in-authors-citations-across-time-periods}{}
 \includegraphics{Presentation_bibliometric_files/figure-beamer/Influence of AU chart-1.pdf}
 \end{block}
 \end{frame}
 
-\begin{frame}{6. Performance Analysis}
-\protect\hypertarget{performance-analysis-1}{}
-\begin{block}{6.2. Authors II}
-\protect\hypertarget{authors-ii}{}
-\includegraphics{Presentation_bibliometric_files/figure-beamer/H-index AU chart-1.pdf}
-\end{block}
-\end{frame}
-
-\begin{frame}{6. Performance Analysis}
-\protect\hypertarget{performance-analysis-2}{}
-\begin{block}{6.3. Articles I}
-\protect\hypertarget{articles-i}{}
+\begin{frame}{6. Performance Analysis V}
+\protect\hypertarget{performance-analysis-v}{}
+\begin{block}{6.2. Articles}
+\protect\hypertarget{articles}{}
 \begin{table}
 
 \caption{\label{tab:Influence of AU table }Most Cited Articles}
@@ -597,110 +541,51 @@ over time.}
 \end{block}
 \end{frame}
 
-\begin{frame}{6. Performance Analysis}
-\protect\hypertarget{performance-analysis-3}{}
-\begin{block}{6.3. Articles II}
-\protect\hypertarget{articles-ii}{}
-\end{block}
-\end{frame}
-
-\begin{frame}{6. Performance Analysis}
-\protect\hypertarget{performance-analysis-4}{}
-\begin{block}{6.4. Journals}
+\begin{frame}{6. Performance Analysis VI}
+\protect\hypertarget{performance-analysis-vi}{}
+\begin{block}{6.3. Journals}
 \protect\hypertarget{journals}{}
-\begin{table}
-
-\caption{\label{tab:Influencial SO}Journals' Performance}
-\centering
-\fontsize{8}{10}\selectfont
-\begin{tabular}[t]{r|l|r|r}
-\hline
-\textbf{Rank} & \textbf{Journals} & \textbf{TC} & \textbf{PD}\\
-\hline
-1 & New Media \& Society & 4427 & 42\\
-\hline
-2 & Information Society & 2066 & 26\\
-\hline
-3 & Information Communication \& Society & 1165 & 43\\
-\hline
-4 & Government Information Quarterly & 965 & 15\\
-\hline
-5 & Telecommunications Policy & 961 & 34\\
-\hline
-6 & Poetics & 945 & 6\\
-\hline
-7 & Telematics And Informatics & 921 & 21\\
-\hline
-8 & Computers In Human Behavior & 837 & 15\\
-\hline
-9 & Universal Access In The Information Society & 590 & 15\\
-\hline
-10 & European Journal Of Communication & 447 & 6\\
-\hline
-\multicolumn{4}{l}{\textsuperscript{1} Source: Author's elaboration}\\
-\multicolumn{4}{l}{\textsuperscript{2} TC: Times Cited}\\
-\multicolumn{4}{l}{\textsuperscript{3} PD: Published Documents}\\
-\end{tabular}
-\end{table}
+\includegraphics{Presentation_bibliometric_files/figure-beamer/Influencial SO-1.pdf}
 \end{block}
 \end{frame}
 
-\begin{frame}{6. Performance Analysis}
-\protect\hypertarget{performance-analysis-5}{}
-\begin{block}{6.5. Affiliations/ Universities}
+\begin{frame}{6. Performance Analysis VII}
+\protect\hypertarget{performance-analysis-vii}{}
+\begin{block}{6.4. Affiliations/ Universities}
 \protect\hypertarget{affiliations-universities}{}
-\begin{table}
-
-\caption{\label{tab:Influencial UN}Top 10 University's Performance}
-\centering
-\fontsize{8}{10}\selectfont
-\begin{tabular}[t]{r|l|r|r}
-\hline
-\textbf{Rank} & \textbf{University} & \textbf{TC} & \textbf{PD}\\
-\hline
-1 & Univ Twente & 4085 & 31\\
-\hline
-2 & London Sch Econ And Polit Sci & 2195 & 24\\
-\hline
-3 & Univ Zurich & 1581 & 26\\
-\hline
-4 & Univ Oxford & 1037 & 38\\
-\hline
-5 & Cardiff Univ & 793 & 10\\
-\hline
-6 & New Mexico State Univ & 664 & 1\\
-\hline
-7 & Brunel Univ London London & 660 & 15\\
-\hline
-8 & Univ Oviedo & 526 & 10\\
-\hline
-9 & Univ Loughborough & 501 & 16\\
-\hline
-10 & Tilburg Univ & 464 & 29\\
-\hline
-\multicolumn{4}{l}{\textsuperscript{1} Source: Author's elaboration}\\
-\multicolumn{4}{l}{\textsuperscript{2} TC: Times Cited}\\
-\multicolumn{4}{l}{\textsuperscript{3} PD: Published Documents}\\
-\end{tabular}
-\end{table}
+\includegraphics{Presentation_bibliometric_files/figure-beamer/Influencial UN-1.pdf}
 \end{block}
 \end{frame}
 
-\begin{frame}{6. Performance Analysis}
-\protect\hypertarget{performance-analysis-6}{}
-\begin{block}{6.5. Countrys' Performance}
-\protect\hypertarget{countrys-performance}{}
+\begin{frame}{6. Performance Analysis VIII}
+\protect\hypertarget{performance-analysis-viii}{}
+\begin{block}{6.5. Countrys' Performance 2000-2022}
+\protect\hypertarget{countrys-performance-2000-2022}{}
+\vspace{0.5cm}
+
 \includegraphics{Presentation_bibliometric_files/figure-beamer/Influencial CO-1.pdf}
+\end{block}
+\end{frame}
+
+\begin{frame}{6. Performance Analysis IX}
+\protect\hypertarget{performance-analysis-ix}{}
+\begin{block}{6.6. Countries Collaboration Network}
+\protect\hypertarget{countries-collaboration-network}{}
+\includegraphics{Presentation_bibliometric_files/figure-beamer/Network CO-1.pdf}
 \end{block}
 \end{frame}
 
 \begin{frame}{7. Science Mapping I}
 \protect\hypertarget{science-mapping-i}{}
+Is a set of techniques and tools used to visualize and analyze the
+structure, relationships, and patterns within a scientific field or
+discipline.
+
 \begin{block}{7.1. Citation Analysis}
 \protect\hypertarget{citation-analysis}{}
 \begin{table}[!h]
 
-\caption{\label{tab:Most cited refs}Most Cited References}
+\caption{\label{tab:Most cited refs}Most Cited References 2000-2022}
 \centering
 \fontsize{5}{7}\selectfont
 \begin{tabular}[t]{r|p{9cm}|r}
@@ -732,15 +617,21 @@ over time.}
 \end{tabular}
 \end{table}
 \end{block}
+\end{frame}
 
-\begin{block}{Similarity measures}
+\begin{frame}{7. Science Mapping II}
+\protect\hypertarget{science-mapping-ii}{}
+\begin{block}{7.2. Similarity measures}
 \protect\hypertarget{similarity-measures}{}
+Quantify similarity, connections and relationships among academic
+entities.
+
 Following \citet{kammerer2021}
 
 \begin{itemize}
 \item
-  \textbf{Research base:} cluster of academic publications in a research
-  field that are considered fundamental to the development and
+  \textbf{Knowledge base:} cluster of academic publications in a
+  research field that are considered fundamental to the development and
   understanding of the field.
 \item
   \textbf{Research front:} cluster of academic publications that refers
@@ -754,30 +645,135 @@ Following \citet{kammerer2021}
 \end{block}
 \end{frame}
 
-\begin{frame}{7. Science Mapping}
-\protect\hypertarget{science-mapping}{}
+\begin{frame}{7. Science Mapping III}
+\protect\hypertarget{science-mapping-iii}{}
 \vspace{0.5cm}
 
-\begin{block}{Co-citations Analyisis}
+\begin{block}{7.2.1. Co-citations Analyisis}
 \protect\hypertarget{co-citations-analyisis}{}
-This network shows the emergence of the literature on the digital divide
-
 \includegraphics{Presentation_bibliometric_files/figure-beamer/Co_cite_P1-1.pdf}
 \end{block}
 \end{frame}
 
-\begin{frame}{7. Science Mapping II}
-\protect\hypertarget{science-mapping-ii}{}
+\begin{frame}{7. Science Mapping IV}
+\protect\hypertarget{science-mapping-iv}{}
 \includegraphics{Presentation_bibliometric_files/figure-beamer/Co_cite_P2-1.pdf}
 \end{frame}
 
-\begin{frame}{7. Science Mapping III}
-\protect\hypertarget{science-mapping-iii}{}
+\begin{frame}{7. Science Mapping V}
+\protect\hypertarget{science-mapping-v}{}
 \includegraphics{Presentation_bibliometric_files/figure-beamer/Co_cite_P3-1.pdf}
 \end{frame}
 
-\begin{frame}{7. Science Mapping IV}
-\protect\hypertarget{science-mapping-iv}{}
+\begin{frame}{7. Science Mapping VI}
+\protect\hypertarget{science-mapping-vi}{}
+\begin{block}{Co-citation Networks Summary}
+\protect\hypertarget{co-citation-networks-summary}{}
+This three networks highlighted:
+
+\begin{itemize}
+\item
+  \textbf{Evolution of research focus:} From internet access and
+  infrastructure to the various facets of the digital divide.
+\item
+  \textbf{Key authors and publications:} These form the knowledge
+  foundations that shapes the discourse, broaden the comprehension of
+  the literature, and guide future research.
+\item
+  \textbf{Emerging trends and themes:} These networks have assisted in
+  uncovering growing themes that highlight research directions that
+  require further examination.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{7. Science Mapping VII}
+\protect\hypertarget{science-mapping-vii}{}
+\begin{block}{7.2.2. Bibliographic Coupling Analysis}
+\protect\hypertarget{bibliographic-coupling-analysis}{}
+\includegraphics{Presentation_bibliometric_files/figure-beamer/Bib_coup_P1-1.pdf}
+\end{block}
+\end{frame}
+
+\begin{frame}{7. Science Mapping VIII}
+\protect\hypertarget{science-mapping-viii}{}
+\includegraphics{Presentation_bibliometric_files/figure-beamer/Bib_coup_P2-1.pdf}
+\end{frame}
+
+\begin{frame}{7. Science Mapping IX}
+\protect\hypertarget{science-mapping-ix}{}
+\includegraphics{Presentation_bibliometric_files/figure-beamer/Bib_coup_P3-1.pdf}
+\end{frame}
+
+\begin{frame}{7. Science Mapping X}
+\protect\hypertarget{science-mapping-x}{}
+\begin{block}{Bibliographic coupling Networks Summary}
+\protect\hypertarget{bibliographic-coupling-networks-summary}{}
+This three networks highlighted:
+
+\begin{itemize}
+\item
+  \textbf{Evolution of digital divide research:} Themes move from access
+  and socio-demographic factors to a more nuance understanding of
+  skills, usage and emerging technologies.
+\item
+  \textbf{Emergence of key authors:} Represent the influential authors
+  that contributed in the emergence of active areas of research in the
+  development of the digital divide.
+\item
+  \textbf{Growing complexities and specialization:} The diverse research
+  themes in the networks reflect the expanding scope and depth of
+  digital divide research.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{7. Science Mapping XI}
+\protect\hypertarget{science-mapping-xi}{}
+\begin{block}{7.2.2. Co-word Analysis}
+\protect\hypertarget{co-word-analysis}{}
+\end{block}
+\end{frame}
+
+\begin{frame}{Conclusions}
+\protect\hypertarget{conclusions}{}
+\begin{itemize}
+\item
+  We have seen the main trends and focus shifts: from access,
+  infrastructure, and socio-economic factors, to skills, usage and other
+  facets of the digital divide, this highlights the complexity and
+  multidimensionality of the digital divide.
+\item
+  The networks showcase collaboration among prominent authors that
+  consistently contribute in the field. The thematic relationships show
+  interconnections of various aspects of the digital divide.
+\item
+  European studies have not extensively addressed the corporate digital
+  divide, leaving room for further examination. The corporate digital
+  divide might be incorporated into other literature streams, such as
+  digital transformation and technology adoption.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Contact information}
+\protect\hypertarget{contact-information}{}
+\vspace{2cm}
+
+Luis Carlos Castillo-Tellez
+
+\vspace{0.1cm}
+
+Guest Researcher
+
+PhD candidate in Global Studies
+
+University of Urbino - Italy
+
+email:
+\href{mailto:l.castillotellez@campus.uniurb.it}{\nolinkurl{l.castillotellez@campus.uniurb.it}}
+
+email:
+\href{mailto:luiscarl@uni-bremen.de}{\nolinkurl{luiscarl@uni-bremen.de}}
 \end{frame}
 
 \renewcommand\refname{References}

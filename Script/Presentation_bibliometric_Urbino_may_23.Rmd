@@ -108,7 +108,7 @@ source("netplot_func.R")
     2.  Similarity Measures
         1.  Co-citations Analysis
         2.  Bibliographic Coupling
-        3.  Co-word Analysis
+       
 
 8.  Conclusions
 
@@ -133,26 +133,7 @@ source("netplot_func.R")
         [@hargittai2002b; @vandijk2005b; @vandijk2006c;
         @vandeursen2011c].
 
-    -   The divide is not exclusively a matter of access or possession
-        of technology. It encloses the ability to effectively search,
-        access, and evaluate information using digital technologies.
-
-# 1. The Digital Divide Overview III
-
--   Waves of Research
-    -   **The third wave:** expands upon the inequalities previously
-        identified in the 1st and 2nd wave.
-
-    -   Focuses on the benefits previously gained from access, skills,
-        and usage of digital technologies.
-
-    -   Emphasize on the ability to benefit from digital technologies in
-        a data-driven market to improve personal and professional
-        aspects [@ragnedda2017].
-
-    -   The disparities from the tangible outcomes gained from different
-        forms of access and usage of digital technologies
-        [@vandeursen2015].
+    -   **The third wave:** The disparities in tangible outcomes arise from different forms of access to and usage of digital technologies, emphasizing the ability to benefit from these technologies in a data-driven market to enhance personal and professional aspects (Ragnedda, 2017; van Deursen, 2015).
 
 # 1. The digital divide overview VI
 
@@ -315,106 +296,8 @@ grid.arrange(prod, cite, nrow= 1)
 
 \vspace{0.5cm}
 
-## 6.2. Authors' publications patterns over time.
-
-```{r Prod of AU, include=TRUE}
-load(here("Script", "Environments",  "Tables&Graphs.RData"))
-p
-```
-
-# 6. Performance Analysis III
-
-## 6.2. Trends in authors' citations across time periods
-
-```{r Influence of AU chart, include=TRUE}
-load(here("Script", "Environments",  "Tables&Graphs.RData"))
-
-c_bind
-```
 
 
-
-```{r H-index AU chart, include=F}
-
-# 6. Performance Analysis VI
-
-## 6.2. Authors: Impact and Productivity 2000-2022
-
-load(here("Script", "Environments",  "Tables&Graphs.RData"))
-H_au
-```
-
-# 6. Performance Analysis V
-
-## 6.2. Articles
-
-```{r Influence of AU table , echo=FALSE, warning=FALSE}
-influ_arti_bind <- read_csv(here("Data", "Processed", "influ_arti_bind.csv"), show_col_types = F)
-
-kbl(influ_arti_bind, "latex", caption = "Most Cited Articles") %>% 
-   column_spec(2, latex_column_spec = "p{9cm}") %>% 
-  # column_spec(4, latex_column_spec = "p{5cm}") %>% 
-kable_styling(bootstrap_options = "striped", full_width = F, font_size = 5) %>%
-  row_spec(0, bold=T) %>%
-  pack_rows("Period 1: 2000- 2007", 1, 5, latex_align = "c") %>%
-  pack_rows("Period 2: 2008- 2015", 6, 10, latex_align = "c") %>% 
-  pack_rows("Period 3: 2016- 2022", 11, 15, latex_align = "c") %>%
-  add_footnote(c("Source: Author's elaboration", "TC: Times Cited"), notation ="number")
-```
-
-# 6. Performance Analysis VI
-
-## 6.3. Journals
-
-```{r Influencial SO, include=T}
-
-load(here("Script", "Environments", "Tables&Graphs.RData"))
-
-SO_chart
-# influ_SO <- read_csv(here("Data", "Processed", "influ_SO.csv"), show_col_types = F)
-# 
-# kbl(influ_SO, "latex", caption = "Journals' Performance 2000-2022") %>% 
-#   # column_spec(4, latex_column_spec = "p{5cm}") %>% 
-# kable_styling(bootstrap_options = "striped", full_width = F, font_size = 8) %>%
-#   row_spec(0, bold=T) %>%
-#   add_footnote(c("Source: Author's elaboration", "TC: Times Cited", "PD: Published Documents"), notation ="number")
-
-
-```
-
-# 6. Performance Analysis VII
-
-## 6.4. Affiliations/ Universities
-
-```{r Influencial UN, include=T, results='asis', echo=F}
-
-load(here("Script", "Environments", "Tables&Graphs.RData"))
-
-UN_chart
-
-# influ_UN <- read_csv(here("Data", "Processed", "univ_perf.csv"), show_col_types = F)
-# 
-# 
-# kbl(influ_UN, "latex", caption = "Top 10 University's Performance 2000-2022") %>%
-#   # column_spec(4, latex_column_spec = "p{5cm}") %>%
-# kable_styling(bootstrap_options = "striped", full_width = F, font_size = 8) %>%
-#   row_spec(0, bold=T) %>%
-#   add_footnote(c("Source: Author's elaboration", "TC: Times Cited", "PD: Published Documents"), notation ="number")
-
-
-```
-
-# 6. Performance Analysis VIII
-
-## 6.5. Countrys' Performance 2000-2022
-
-\vspace{0.5cm}
-
-```{r Influencial CO, include=T}
-grid.arrange(gg1,gg.mid,gg2,ncol=3,widths=c(4/9,1/6,4/9))
-
-
-```
 
 # 6. Performance Analysis IX
 

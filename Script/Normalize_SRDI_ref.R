@@ -1,4 +1,5 @@
 #### 0. Loading Packages ####
+#Sys.setenv(OPENAI_API_KEY = "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")
 library(tidyverse)
 library(here)
 library(bibliometrix)
@@ -17,6 +18,7 @@ library(naniar)
 library(dimensionsR)
 library(jsonlite)
 library(purrr)
+
 load(here("Script", "Environments", "Normalize_env.RData"))
 
 ################################################################################
@@ -33,6 +35,8 @@ all_dim <- read_csv(here("Data", "Processed", "all_dim.csv"),
 
 M <- rbind(all_isi, all_sco, all_dim)
 
+topic <- which(grepl("dividend", M$DE, ignore.case = T))
+M <- M[-topic,]
 M <- M %>% replace_with_na_all(condition = ~. == "") # converting "" into NA within the df
 M <- M %>% replace_with_na_all(condition = ~. == "NA") # converting "" into NA within the df
 vis_miss(M)
@@ -246,7 +250,32 @@ write_csv(M, file = here("Data",
                          "M_EU.csv")) # writing as CSV to make readable in biblioshiny
 
 
+N <- M
 
+N$DB <- "ISI"
+N$SR <- N$SRDI
+rownames(N) <- N$SRDI # using SR as row names
+
+write_csv(N, file = here("Data", 
+                         "Processed", 
+                         "N_EU.csv")) # writing as CSV to make readable in biblioshiny
+class(N) <- c("bibliometrixDB", "data.frame")
+save(N, file = "N_EU.rda")
+
+N$LABEL <- paste(N_AU, N$PY, sep = ", ")
+N$LABEL <- LABEL
+n_1p <- N %>% filter(PY <= 2008)
+n_1p = n_1p[order(n_1p$PY), ]
+save(n_1p, file = "n1_EU.rda")
+
+n_2p <- N %>% filter(PY > 2008 & PY <= 2015) # sub-setting the second period
+n_2p = n_2p[order(n_2p$PY), ]
+save(n_2p, file = "n2_EU.rda")
+
+
+n_3p <- N %>% filter(PY > 2016 & PY <= 2022) # sub-setting the second period
+n_3p = n_3p[order(n_3p$PY), ]
+save(n_3p, file = "n3_EU.rda")
 
 
 
