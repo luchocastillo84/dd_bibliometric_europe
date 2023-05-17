@@ -1,0 +1,80 @@
+---
+title: "Test table"
+author: "Luis Carlos Castillo"
+date: "`r Sys.Date()`"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = F, message = F )
+```
+
+```{r Loading packages, include=FALSE}
+library(tidyverse)
+library(devtools)
+library(here)
+library(bibliometrix)
+library(stringr)
+library(readr)
+library(visdat)
+library(stringr)
+library(dplyr)
+library(readxl)
+library(janitor)
+library(ggplot2)
+library(gridExtra)
+options(kableExtra.latex.load_packages = FALSE)
+library(kableExtra)
+library(rmarkdown)
+library(tidytext)
+library(knitr)
+library(qwraps2)
+library(dplyr)
+library(tables)
+library(bibtex)
+library(igraph)
+library(RColorBrewer)
+library(Matrix)
+library(flextable)
+library(ggpubr)
+library(cowplot)
+library(ggeasy)
+library(Hmisc)
+library(gridGraphics)
+library(gridBase)
+
+```
+
+## R Markdown
+
+This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## Slide with Bullets
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+## Slide with R Output
+
+```{r Descriptive, echo=FALSE, include=T}
+desc_a <- read_csv(here("Data", "Processed", "desc_analysis.csv"))
+
+
+# set_flextable_defaults(
+#   border.color = "gray")
+# 
+# flextable(head(desc_a)) %>% 
+#   bold(part = "header") %>% 
+#   add_footer_lines("Descriptive Analysis") %>% 
+#   theme_vanilla()
+
+kable(desc_a,"latex") %>% 
+  kable_styling(latex_options="scale_down") %>% 
+  row_spec(c(0), bold=T) %>% row_spec(c(5), color = "blue") #005997
+  
+   
+
+```

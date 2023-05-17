@@ -20,6 +20,7 @@ library(purrr)
 library(ggrepel)
 library(ggtext)
 library(gridExtra)
+library(ggplot2)
 
 load(here("Script", "Environments", "Tables&Graphs.RData"))
 
@@ -36,7 +37,7 @@ MM[, c(5, 23)] <- lapply(MM[, c(5,23)], tolower) # to lower DT and DI
 Details <- c("Timespan", "Journals", # creating details vector
              "Annual growth rate", "Average citations per doc", 
              "Total published documents", "Articles","Book chapters",
-             "Porceeding papers","Conference papers") # 11 items
+             "Proc & Conf papers") # 8 items
 
 tot_period <-paste(min(MM$PY, # the studied period in the bibliometric
                        na.rm = T) , 
@@ -51,6 +52,41 @@ sources <- n_distinct(MM$SO) # counts the number of journals in MM
 n_docs <- nrow(MM) # counts the number of published documents in MM
 avg_cite <- round(sum(MM$TC)/nrow(MM), 2) # returns the average citation 
 
+totAU=strsplit(as.character(M$AU),split = ";") # Total authors split in a vec 
+totAU=lapply(totAU, function(l) trim(l)) # trimming white spaces
+numAU <- lengths(totAU) # counting authors per doc
+AUtot=unlist(totAU) # unlisting agregated authors
+AUtot <- unique(AUtot) # selecting only unique authors
+
+
+totAU1=strsplit(as.character(M_1p$AU),split = ";") # Total authors split in a vec 
+totAU1=lapply(totAU1, function(l) trim(l)) # trimming white spaces
+numAU1 <- lengths(totAU1) # counting authors per doc
+AUtot1=unlist(totAU1) # unlisting agregated authors
+AUtot1 <- unique(AUtot1) # selecting only unique authors
+
+totAU2=strsplit(as.character(M_2p$AU),split = ";") # Total authors split in a vec 
+totAU2=lapply(totAU2, function(l) trim(l)) # trimming white spaces
+numAU2 <- lengths(totAU2) # counting authors per doc
+AUtot2=unlist(totAU2) # unlisting agregated authors
+AUtot2 <- unique(AUtot2) # selecting only unique authors
+
+totAU3=strsplit(as.character(M_3p$AU),split = ";") # Total authors split in a vec 
+totAU3=lapply(totAU3, function(l) trim(l)) # trimming white spaces
+numAU3 <- lengths(totAU3) # counting authors per doc
+AUtot3=unlist(totAU3) # unlisting agregated authors
+AUtot3 <- unique(AUtot3) # selecting only unique authors
+
+
+
+
+Ycite <- (tot_cite_pub$logavg_cite_pery) # number of published docs by year
+nycite=length(Ycite) # returns how many years 
+CAGRcite<-as.numeric(
+  round(((Ycite[nycite]/Ycite[1])^(1/(nycite-1))-1)*100,2)) # Compound annual growth rate
+
+
+
 
 arti <- as_vector(  # counting and merging articles with reviewed articles
         nrow(MM[MM$DT=='article', ]) + 
@@ -60,18 +96,17 @@ bchap <- as_vector(
          nrow(MM[MM$DT=='book chapter',]) + # counting and merging book chapters 
          nrow(MM[MM$DT=='article; book chapter',])) # with arti & and book chapters
 
-procee <- as_vector(
-          nrow(MM[MM$DT=='proceedings paper',]) + 
-          nrow(MM[MM$DT=='article; proceedings paper', 
-                  ])) # counting and merging proceedings 
+procee <- as_vector( # convert as a vector to sum
+          nrow(MM[MM$DT=='proceedings paper',]) + # proceedings
+          nrow(MM[MM$DT=='article; proceedings paper',]) + # art proceedings
+          nrow(MM[MM$DT=='conference paper',])) # conference papers
 
-confe <- as_vector(nrow(MM[MM$DT=='conference paper', 
-                           ])) # counting conference papers
+
 
 
 Total <- c(tot_period, sources, CAGR, # creating a total vector
            avg_cite, n_docs, arti, bchap, 
-           procee, confe)
+           procee)
 
 ##### 1.2. 2000 to 2007 first period ####
 
@@ -102,16 +137,13 @@ bchap1 <- as_vector(
 
 procee1 <- as_vector(
            nrow(M_1p[M_1p$DT=='proceedings paper',]) + 
-           nrow(M_1p[M_1p$DT=='article; proceedings paper', 
-                     ])) # counting and merging proceedings 
+           nrow(M_1p[M_1p$DT=='article; proceedings paper',])+ 
+           nrow(M_1p[M_1p$DT=='conference paper',])) # counting and merging proceedings 
 
-confe1 <- as_vector(
-          nrow(M_1p[M_1p$DT=='conference paper', 
-                    ])) # counting conference papers
 
 "Period 1" <- c(tot_period1, sources1, # creating a vector with the first period
                 CAGR1, avg_cite1, n_docs1, arti1, 
-                bchap1, procee1, confe1 )
+                bchap1, procee1)
 
 ##### 1.3. 2008 to 2015: second period ####
 
@@ -142,16 +174,13 @@ bchap2 <- as_vector(
 
 procee2 <- as_vector(
            nrow(M_2p[M_2p$DT=='proceedings paper',]) + 
-           nrow(M_2p[M_2p$DT=='article; proceedings paper',
-                     ])) # counting and merging proceedings 
+           nrow(M_2p[M_2p$DT=='article; proceedings paper',]) +
+           nrow(M_2p[M_2p$DT=='conference paper',])) # counting and merging proceedings 
 
-confe2 <- as_vector(
-          nrow(M_2p[M_2p$DT=='conference paper',
-                    ])) # counting conference papers
 
 "Period 2" <- c(tot_period2, sources2, # creating a vector with the second period
                 CAGR2, avg_cite2, n_docs2, 
-                arti2, bchap2, procee2, confe2 )
+                arti2, bchap2, procee2 )
 
 ##### 1.4. 2015 to 2022: third period ####
 
@@ -182,15 +211,13 @@ bchap3 <- as_vector(
 
 procee3 <- as_vector(
            nrow(M_3p[M_3p$DT=='proceedings paper',]) + 
-           nrow(M_3p[M_3p$DT=='article; proceedings paper', 
-                     ])) # counting and merging proceedings 
+           nrow(M_3p[M_3p$DT=='article; proceedings paper',]) +
+           nrow(M_3p[M_3p$DT=='conference paper',])) # counting and merging proceedings 
 
-confe3 <- as_vector(nrow(M_3p[M_3p$DT=='conference paper', 
-                              ])) # counting conference papers
 
 "Period 3" <- c(tot_period3, sources3, # creating a vector with the third period
                 CAGR3, avg_cite3, n_docs3, 
-                arti3, bchap3, procee3, confe3 )
+                arti3, bchap3, procee3)
 
 ##### 1.5. Table with totals and periods ####
 
@@ -200,30 +227,107 @@ tot_docs <- data.frame(Details, # Table with descriptive analysis
                        `Period 3`, 
                        Total)
 
+# Long format of tot_docs
+data_long <- tot_docs %>%
+  gather(key = "Period", value = "Value", -Details)
+
+data_long$Period <- recode(data_long$Period,
+                         "Period.1" = "2000-2007",
+                         "Period.2" = "2008-2015",
+                         "Period.3" = "2016-2022")
+
+# filtering data Annual growth rate", "Average citations per doc
+g_rates <- data_long %>%
+  filter(Details %in% c("Annual growth rate", "Average citations per doc")) 
+
+
+
+
+ggplot(g_rates, aes(x = Period, y = as.numeric(Value), fill = Details)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(title = "Avg Citations per Doc and Annual Growth Rate by Period",
+    x = "Period",
+    y = "Value",
+    fill = "Metric") +
+  scale_fill_manual(values = c("#012a4a", "#7d8597")) +
+  theme(legend.position = "top")
+
+
+# filtering data 
+g_rates_2 <- data_long %>%
+  filter(Details %in% c("Book chapters",
+                        "Proc & Conf papers", 
+                        "Articles",
+                        "Total published documents")) 
+g_rates_2[, c(1,2)] <-  lapply(g_rates_2[, c(1,2)], as.factor)
+
+
+
+g_rates_2 <- g_rates_2 %>%
+   group_by(Period) %>% 
+  mutate(sorting_order = rank(Value)) %>%
+  ungroup()
+
+ggplot(g_rates_2, aes(x = Period, y = as.numeric(Value), fill = Details)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = Value, 
+                group = Details), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5,
+            size = 3) +
+  theme_minimal() +
+  labs(title = "Type of Documents",
+    x = "Period",
+    y = "Value",
+    fill = "Document Types by Periods") +
+  scale_fill_manual(values = c("#012a4a", "#005997", "#468faf","#7d8597")) +
+  theme(legend.position = "top") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(text = element_text(size = 14)) 
+
+
+
+
 write_csv(tot_docs, file = here("Data", 
                                 "Processed", 
                                 "desc_analysis.csv")) # writing as CSV for Rmd
 
+### 2. Table with total publications and citations per year ####
 
-### 2. Line chart: publications and citations per year ####
 
-MM %>% group_by(PY) %>% 
-  summarise(totc = sum(TC)) %>%  
-  ggplot(aes(x= PY, y= totc)) + geom_line() + geom_vline(xintercept = c(2008, 2015), 
-                                                         linetype = "dotted",
-                                                         color = "blue") + 
-  labs(title = "Total Citations per Year" ,
-       y = "Citations", x ="Years") + 
+tot_cite_pub <- MM %>% dplyr::group_by(PY) %>% 
+  summarise(totd = n(), totc= sum(TC))
+
+tot_cite_pub$growth_rate_cite <- c(NA, diff(tot_cite_pub$totc) / 
+                                     tot_cite_pub$totc[-nrow(tot_cite_pub)] * 100)
+
+tot_cite_pub$growth_rate_doc <- c(NA, diff(tot_cite_pub$totd) / 
+                                     tot_cite_pub$totd[-nrow(tot_cite_pub)] * 100)
+
+tot_cite_pub <- tot_cite_pub[-1, ]
+tot_cite_pub$avg_cite_pery <- tot_cite_pub$totc / tot_cite_pub$totd
+tot_cite_pub$logavg_cite_pery <- log(tot_cite_pub$avg_cite_pery)
+
+### 2.1. Line chart: publications and citations per year ####
+
+ggplot(tot_cite_pub, aes(x= PY, y= log(avg_cite_pery))) + 
+  geom_line() + 
+  geom_vline(xintercept = c(2008, 2015), linetype = "dotted",color = "blue") + 
+  labs(title = "Relative Change in the Average Citations per Year",
+       y = "Log Avg Citations", x ="Years") +
+  theme(plot.title = element_text(hjust = 0.5)) +
   theme(text = element_text(size = 14)) 
 
-MM %>% group_by(PY) %>% 
-  summarise(totd = n()) %>%  
-  ggplot(aes(x= PY, y= totd)) + geom_line() + geom_vline(xintercept = c(2008, 2015), 
-                                                         linetype = "dotted",
-                                                         color = "blue") + 
+
+ggplot(tot_cite_pub, aes(x= PY, y= totd)) + 
+  geom_line() + 
+  geom_vline(xintercept = c(2008, 2015),linetype = "dotted",color = "blue") + 
   labs(title = "Total Publications per Year" ,
        y = "Publications", x ="Years") + 
+  theme(plot.title = element_text(hjust = 0.5)) +
   theme(text = element_text(size = 14)) 
+
 
 
 ### 3. Most influential articles ####
@@ -387,8 +491,28 @@ SO <- MM %>% filter(!is.na(SO)) %>%  # filter out NA
     group_by(SO) %>% # group by journal 
   dplyr::summarise(TC = sum(TC), # sum citations
                    PD= n()) %>%   # sum No of articles
-  arrange(desc(TC)) %>% # order by descending order
+  arrange(desc(TC)) %>% rename(Journal = SO) %>%  # order by descending order
   head(10)
+
+SO$Journal <- str_to_title(SO$Journal)
+
+SO_chart <- ggplot(SO, aes(x = reorder(Journal, TC)))  + 
+  geom_bar(aes( y=TC),stat="identity", fill="#7d8597",colour="#7d8597")+
+  geom_text(aes(y = TC, label = round( TC)), hjust = -0.1, color = "black", size= 3)+
+  geom_point(aes( y=10*PD, group = 1),stat="identity",color="#012a4a",size=1)+
+  geom_text(aes(y = 10 * PD, label = round( PD)), nudge_x = 0.2, color = "#012a4a") +
+  labs(title= "Top 10 Journals' Performance 2000-2022",
+       x="Journals",y="Times Cited(Bars)")+
+  scale_y_continuous(sec.axis=sec_axis(~./10,name="Published Documents(Dots)")) +
+  coord_flip() 
+
+SO_chart
+
+#c("#012a4a", "#0466c8", "#468faf","#7d8597"))
+
+ggplot(SO, aes(x = Journal, y = PD, group= 1)) +
+  geom_line(color = "red", size = 1)
+
 
 names(SO) <- c("Journals", "TC", "PD")
 SO$Rank <- seq(nrow(SO))
@@ -483,7 +607,7 @@ write_csv(CO_perf, file = here("Data",
 g.mid<-ggplot(CO_perf,aes(x=1,y= reorder(Country, TC)))+geom_text(aes(label= Country), size =4)+
   geom_segment(aes(x=0.84,xend=0.96,yend=Country))+
   geom_segment(aes(x=1.14,xend=1.065,yend=Country))+
-  ggtitle("")+
+  ggtitle("B. Countries' Performance 2000-2002")+
   ylab(NULL)+
   scale_x_continuous(expand=c(0,0),limits=c(0.94,1.065))+
   theme(axis.title=element_blank(),
@@ -493,26 +617,34 @@ g.mid<-ggplot(CO_perf,aes(x=1,y= reorder(Country, TC)))+geom_text(aes(label= Cou
         panel.background=element_blank(),
         axis.text.x=element_text(color=NA),
         axis.ticks.x=element_line(color=NA),
-        plot.margin = unit(c(1,-4,1,-3), "mm"))
+        plot.margin = unit(c(4,-4,1,-3), "mm"),
+        plot.title = element_text(hjust = 0.5, vjust = 4, size = 14))
 
 g.mid
 
 
 co_tc <- ggplot(CO_perf, aes(x= TC, y= reorder(Country, TC))) + 
-  geom_bar(stat = "identity") + ggtitle("Countries' Citations") +
+  geom_bar(stat = "identity", fill="#7d8597",colour="#7d8597") + 
+  ggtitle("Citations") +
+  geom_text(aes(x = TC, label = round( TC)), hjust = -0.1, color = "black", size= 3)+
   theme(axis.title.x = element_blank(), 
         axis.title.y = element_blank(), 
         axis.text.y = element_blank(), 
         axis.ticks.y = element_blank(), 
-        plot.margin = unit(c(1,-1,1,0), "mm")) + scale_x_reverse() +
-  theme(plot.title = element_text(hjust = 0.5))
+        plot.margin = unit(c(6,5,1,5), "mm")) + scale_x_reverse() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(y = "Your y-axis title")
+
+co_tc
 
 co_pd <- ggplot(CO_perf, aes(x= PD, y= reorder(Country, TC))) + 
-  geom_bar(stat = "identity", fill = "#005997") + ggtitle("Countries' Published Docs") +
+  geom_bar(stat = "identity", fill = "#005997") +
+  geom_text(aes(x = PD, label = round( PD)), hjust = 1.3, color = "white", size= 3) + 
+  ggtitle("Publications") +
   theme(axis.title.x = element_blank(), axis.title.y = element_blank(), 
         axis.text.y = element_blank(), axis.ticks.y = element_blank(),
-        plot.margin = unit(c(1,0,1,0), "mm")) +
-  theme(plot.title = element_text(hjust = 0.5))
+        plot.margin = unit(c(6,5,1,5), "mm")) +
+  theme(plot.title = element_text(hjust = 0.5))+ labs(y= "X")
 co_pd
 
 gg1 <- ggplot_gtable(ggplot_build(co_tc))
@@ -520,6 +652,19 @@ gg2 <- ggplot_gtable(ggplot_build(co_pd))
 gg.mid <- ggplot_gtable(ggplot_build(g.mid))
 
 grid.arrange(gg1,gg.mid,gg2,ncol=3,widths=c(4/9,1/6,4/9))
+
+CO_chart <- ggplot(CO_perf, aes(x = reorder(Country, TC)))  + 
+  geom_bar(aes( y=TC),stat="identity", fill="#7d8597",colour="#7d8597")+
+  geom_text(aes(y = TC, label = round( TC)), hjust = -0.1, color = "black", size= 3)+
+  geom_point(aes( y=1*PD, group = 1),stat="identity",color="#012a4a",size=1)+
+  geom_text(aes(y = 10 * PD, label = round( PD)), nudge_x = 0.2, color = "#012a4a") +
+  labs(title= "B. Top 10 Countries' Performance 2000-2022",
+       x="Counries",y="Times Cited(Bars)")+
+  scale_y_continuous(sec.axis=sec_axis(~./10,name="Published Documents(Dots)")) +
+  coord_flip() 
+
+CO_chart
+
 
 
 
@@ -574,7 +719,9 @@ write_csv(prod_AU, file = here("Data",
 Y <- as.numeric(substr(Sys.time(),1,4))
 listAU <- (strsplit(MM$AU, ";"))
 nAU <- lengths(listAU)
-df <- data.frame(AU=trimws(unlist(listAU)), SR=rep(MM$SR,nAU)) 
+df <- data.frame(AU=trimws(unlist(listAU)), SR=rep(MM$SR,nAU))
+df$AU <- str_to_title(df$AU)
+
 AU <- df %>% 
   group_by(AU) %>% 
   count() %>% 
@@ -584,7 +731,7 @@ AU <- df %>%
 df <- df %>% 
   right_join(AU, by = "AU") %>%
   left_join(MM, by = "SR") %>% 
-  select(AU.x,PY, TI, SO, DI, TC) %>% 
+  dplyr::select(AU.x, PY, TI, SO, DI, TC) %>% 
   mutate(TCpY = TC/(Y-PY+1)) %>%
   group_by(AU.x) %>% 
   mutate(n = length(AU.x)) %>% 
@@ -593,7 +740,7 @@ df <- df %>%
          year = PY,
          DOI = DI) %>% 
   arrange(desc(n), desc(year)) %>% 
-  select(-n)
+  dplyr::select(-n)
 
 
 df2 <- dplyr::group_by(df, Author,year) %>%
@@ -616,7 +763,7 @@ p <- ggplot(df2, aes(x= Author, y=year, round(TCpY,2))) +
   theme(legend.position = 'right'
         ,text = element_text(color = "#444444")
         ,panel.background = element_rect(fill = '#FFFFFF')
-        ,plot.title = element_text(size = 24)
+        ,plot.title = element_text(size = 18, hjust = 0.5)
         ,axis.title = element_text(size = 14, color = '#555555')
         ,axis.title.y = element_text(vjust = 1, angle = 90)
         ,axis.title.x = element_text(hjust = .5)
@@ -625,13 +772,15 @@ p <- ggplot(df2, aes(x= Author, y=year, round(TCpY,2))) +
         ,axis.line.x = element_line(color="grey50", size=0.5)
         ,panel.grid.major.x = element_blank() 
         ,panel.grid.major.y = element_line( size=.2, color="grey90")) +
-  labs( x="Authors", y ="Years") + # title="Authors' Production over Time",
-  theme(axis.title.y = element_text(vjust = 1)) +
+  labs( x="Authors", y ="Years", title="Authors' Production over Time") +
+  theme(axis.title.y = element_text(vjust = 1, size = 12)) +
   geom_line(data=df2,aes(x = Author, y = year, 
                          group=Author),size=1.0, color="firebrick4", alpha=0.3 )+
   coord_flip() + geom_text(data=summary_df, aes(x=Author, y=Inf, label= total_freq),
                            hjust=1, vjust=0.5, size=4, color="grey30") +
-  scale_x_discrete(limits = rev(levels(df2$Author)))
+  scale_x_discrete(limits = rev(levels(df2$Author))) + 
+  geom_hline(yintercept = c(2008, 2015), linetype = "dotted",color = "blue") 
+
 
 p 
 
@@ -663,6 +812,8 @@ dfcite <- df %>%
   arrange(desc(n), desc(year)) %>% 
   select(-n)
 
+
+
 df2cite <- dplyr::group_by(dfcite, Author,year) %>%
   dplyr::summarise(TC=sum(TC),TCpY=sum(TCpY)) %>% 
   as.data.frame() %>% arrange(desc(TC))
@@ -692,14 +843,13 @@ c_tot <- ggplot(df2cite, aes(x= Author, y=year, round(TCpY,2))) +
         ,axis.line.x = element_line(color="grey50", size=0.5)
         ,panel.grid.major.x = element_blank() 
         ,panel.grid.major.y = element_line( size=.2, color="grey90")) +
-  labs( x="Authors", y ="Years") + # title="Authors' Production over Time",
+  labs( x="Authors", y ="Years", title= "Authors' Production over Time") +
   theme(axis.title.y = element_text(vjust = 1)) +
   geom_line(data=df2cite,aes(x = Author, y = year, 
                              group=Author),size=1.0, color="firebrick4", alpha=0.3 )+
   coord_flip() + geom_text(data=summary_dfcite, aes(x=Author, y=Inf, label= total_TC),
                            hjust=1, vjust=0.5, size=4, color="grey30") +
   scale_x_discrete(limits = rev(levels(df2cite$Author)))
-
 c_tot
 
 
@@ -709,6 +859,9 @@ Y <- as.numeric(substr(Sys.time(),1,4))
 listAU1 <- (strsplit(M_1p$AU, ";"))
 nAU <- lengths(listAU1)
 df1 <- data.frame(AU=trimws(unlist(listAU1)), SR=rep(M_1p$SR,nAU), TC=rep(M_1p$TC,nAU)) 
+
+df1$AU <- str_to_title(df1$AU)
+
 AUcite1 <- df1 %>% 
   group_by(AU) %>% 
   summarise(tot_cite= sum(TC)) %>% 
@@ -747,6 +900,9 @@ Y <- as.numeric(substr(Sys.time(),1,4))
 listAU2 <- (strsplit(M_2p$AU, ";"))
 nAU <- lengths(listAU2)
 df2 <- data.frame(AU=trimws(unlist(listAU2)), SR=rep(M_2p$SR,nAU), TC=rep(M_2p$TC,nAU)) 
+
+df2$AU <- str_to_title(df2$AU)
+
 AUcite2 <- df2 %>% 
   group_by(AU) %>% 
   summarise(tot_cite= sum(TC)) %>% 
@@ -784,6 +940,9 @@ Y <- as.numeric(substr(Sys.time(),1,4))
 listAU3 <- (strsplit(M_3p$AU, ";"))
 nAU <- lengths(listAU3)
 df3 <- data.frame(AU=trimws(unlist(listAU3)), SR=rep(M_3p$SR,nAU), TC=rep(M_3p$TC,nAU)) 
+
+df3$AU <- str_to_title(df3$AU)
+
 AUcite3 <- df3 %>% 
   group_by(AU) %>% 
   summarise(tot_cite= sum(TC)) %>% 
@@ -823,6 +982,7 @@ dfcite_tot <- rbind(dfcite1,dfcite2,dfcite3)
 
 
 df2cite_tot <- rbind(df2cite1, df2cite2, df2cite3)
+#df2cite_tot$Author <- as.factor(str_to_title(df2cite_tot$Author))
 
 summary_dfcite_t <- df2cite_tot %>% group_by(Author) %>% 
   summarise(total_TC = sum(TC)) %>% arrange(desc(total_TC))
@@ -854,7 +1014,8 @@ c_bind <- ggplot(df2cite_tot, aes(x= Author, y=year, round(TCpY,2))) +
   coord_flip() + geom_text(data=summary_dfcite_t, aes(x=Author, y=Inf, label= total_TC),
                            hjust=1, vjust=0.5, size=2.5, color="grey30") +
   scale_x_discrete(limits = rev(levels(df2cite_tot$Author))) + 
-  geom_vline(aes(xintercept = 2010), linetype = "dotted", color = "blue") 
+  geom_vline(aes(xintercept = 2010), linetype = "dotted", color = "blue") + 
+  geom_hline(yintercept = c(2008, 2015), linetype = "dotted",color = "blue") 
 
 c_bind
   
@@ -864,6 +1025,7 @@ c_bind
 #### 6.3. Author's H- index ####
 
 AU = MM$AU
+AU <- str_to_title(AU)
 AU <- trimES(gsub(","," ",AU))
 listAU <- strsplit(AU, split=";")
 l <- lengths(listAU)
@@ -886,16 +1048,18 @@ H <- df %>%
     TC = sum(TC),
     NP = length(AUs)) %>%
   rename(AU = AUs) %>%
-  as.data.frame() %>% arrange(desc(h_index)) %>% head(10)
+  as.data.frame() %>% arrange(desc(h_index)) %>% head(15)
 
 H_au <- ggdotchart(H, x = "AU", y = "h_index",
-                 title = "Author's Impact",
+                 #title = "Author's Impact",
                  color = "#005997",
                  palette = c("#00AFBB", "#E7B800", "#FC4E07"), # Custom color palette
                  sorting = "descending",                       # Sort value in descending order
                  add = "segments",                             # Add segments from y = 0 to dots
                  rotate = TRUE,                                # Order by groups
                  dot.size = 9,                                 # Large dot size
+                 xlab = "Authors",
+                 ylab = "H-index (2000-2022)",
                  label = round(H$h_index),                        # Add mpg values as dot labels
                  font.label = list(color = "white", size = 9,
                                    vjust = 0.5),               # Adjust label parameters
@@ -987,6 +1151,18 @@ univ_perf$Rank <- seq(nrow(univ_perf))
 univ_perf <- univ_perf %>% rename(University = UN) %>% 
   select(Rank, University, TC, PD)
 univ_perf$University <- str_to_title(univ_perf$University)
+
+UN_chart <- ggplot(univ_perf, aes(x = reorder(University, TC)))  + 
+  geom_bar(aes( y=TC),stat="identity", fill="#7d8597",colour="#7d8597")+
+  geom_text(aes(y = TC, label = round( TC)), hjust = -0.1, color = "black", size= 3)+
+  geom_point(aes( y=10*PD, group = 1),stat="identity",color="#012a4a",size=1)+
+  geom_text(aes(y = 10 * PD, label = round( PD)), nudge_x = 0.2, color = "#012a4a") +
+  labs(title= "A. Top 10 Universityies' Performance 2000-2022",
+       x="Universities",y="Times Cited(Bars)")+
+  scale_y_continuous(sec.axis=sec_axis(~./10,name="Published Documents(Dots)")) +
+  coord_flip() 
+
+UN_chart
 
 
 

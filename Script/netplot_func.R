@@ -1,3 +1,5 @@
+
+# "bottomright", "bottomleft", "topright", or "topleft"
 netPlot <-
   function(NetMatrix,
            normalize = NULL,
@@ -24,11 +26,22 @@ netPlot <-
            edgesize = 1,
            edges.min = 0,
            alpha = 0.5,
-           verbose = TRUE) {
+           verbose = TRUE,
+           legend.position = "bottomright",
+           legend.keywords = NULL) {
     
     S <- NULL
     
     colnames(NetMatrix) <- rownames(NetMatrix) <- str_to_title(colnames(NetMatrix))
+    
+    # Convert the last letter to lowercase
+    colnames(NetMatrix) <- rownames(NetMatrix) <- sapply(colnames(NetMatrix), function(x) {
+      last_letter <- substr(x, nchar(x), nchar(x))
+      modified_last_letter <- tolower(last_letter)
+      paste0(substr(x, 1, nchar(x) - 1), modified_last_letter)
+    })
+    
+    
     bsk.S <- TRUE
     l <- NA
     net_groups <- list()
@@ -255,6 +268,22 @@ netPlot <-
       
     }
     
+    # Add legend to the plot
+    if (cluster != "none") {
+      if (is.null(legend.keywords)) {
+        legend_labels <- levels(as.factor(V(bsk.network)$community))
+      } else {
+        legend_labels <- sapply(legend.keywords, function(x) paste(x, collapse = ", "))
+      }
+      
+      legend(legend.position, legend = legend_labels,
+             col = adjustcolor(unique(V(bsk.network)$color), alpha),
+             pch = 21, pt.bg = adjustcolor(unique(V(bsk.network)$color), alpha),
+             pt.cex = 1.2, cex = 0.8, text.col = NA,
+             x.intersp = 1.2, y.intersp = 1.2, text.width = 0.9)  # Set text.col to NA
+      
+    }
+    
     ## Output
     if (cluster != "none") {
       cluster_res <- data.frame(net_groups$names,
@@ -295,7 +324,9 @@ netPlot <-
                    edgesize = edgesize,
                    edges.min = edges.min,
                    alpha = alpha,
-                   verbose = verbose)
+                   verbose = verbose,
+                   legend.position = "bottomright",
+                   legend.keywords = NULL)
     params <- data.frame(params=names(unlist(params)),values=unlist(params), row.names = NULL)
     
     net <- list(
