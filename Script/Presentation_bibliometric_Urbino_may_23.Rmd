@@ -1,5 +1,5 @@
 ---
-title: 'Bibliometric Analysis of European Research on Digital Divide: An Exploration of the Corporate Landscape'
+title: 'Digital Divide and Innovation in European Enterprises: A Multi-Method Analysis of Firm and Sectoral Dynamics'
 author: "Luis Carlos Castillo"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 output:
@@ -11,6 +11,7 @@ output:
   slidy_presentation: default
   powerpoint_presentation: default
 institute: |
+  | Supervisor: Prof. Francesco Vidoli
   | University of Urbino
   | Ph.D. Program in Global Studies
 editor_options:
@@ -25,6 +26,8 @@ header-includes:
   - \AtBeginEnvironment{thebibliography}{\scriptsize}
 biblio-style: "apalike"
 ---
+
+
 
 ```{r setup, echo=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = F, message = F )
@@ -79,6 +82,26 @@ source("netplot_func.R")
 
 ```
 
+# Cumulative Dissertation
+
+
+```{=tex}
+\begin{center}
+\includegraphics[width=1\textwidth]{pic_3.png}
+\end{center}
+```
+
+
+
+
+# Chapter 1
+
+
+
+
+##  \centering{Bibliometric Analysis of European Research on Digital Divide: An Exploration of the Corporate Landscape}
+
+
 # Content I
 
 1.  Digital Divide Overview
@@ -91,6 +114,9 @@ source("netplot_func.R")
 
 5.  Bibliometric Analysis
 
+
+# Content II
+
 6.  Performance Analysis
 
     1.  Publications Vs Citations
@@ -100,15 +126,12 @@ source("netplot_func.R")
     5.  Affiliations/ Universities
     6.  Countries
 
-# Content II
-
 7.  Science Mapping
 
     1.  Citations Analysis
     2.  Similarity Measures
         1.  Co-citations Analysis
         2.  Bibliographic Coupling
-       
 
 8.  Conclusions
 
@@ -133,9 +156,13 @@ source("netplot_func.R")
         [@hargittai2002b; @vandijk2005b; @vandijk2006c;
         @vandeursen2011c].
 
-    -   **The third wave:** The disparities in tangible outcomes arise from different forms of access to and usage of digital technologies, emphasizing the ability to benefit from these technologies in a data-driven market to enhance personal and professional aspects (Ragnedda, 2017; van Deursen, 2015).
+    -   **The third wave:** The disparities in tangible outcomes arise
+        from different forms of access to and usage of digital
+        technologies, emphasizing the ability to benefit from these
+        technologies in a data-driven market to enhance personal and
+        professional aspects [@ragnedda2017; @vandeursen2015a].
 
-# 1. The digital divide overview VI
+# 1. The digital divide overview III
 
 ## The corporate landscape
 
@@ -151,13 +178,20 @@ source("netplot_func.R")
 
 # 2. Motivation
 
--   Investigating the transformative effects of digital technologies on society and economy, while highlighting both opportunities and challenges.
+-   Investigating the transformative effects of digital technologies on
+    society and economy, while highlighting both opportunities and
+    challenges.
 
--   Aligning with the Digital Europe program's vision by devising strategies to bridge the digital divide effectively.
+-   Aligning with the Digital Europe program's vision by devising
+    strategies to bridge the digital divide effectively.
 
--   Diversifying bibliometric research by extending its application beyond health sciences, computer science, and technology to understand the digital divide.
+-   Diversifying bibliometric research by extending its application
+    beyond health sciences, computer science, and technology to
+    understand the digital divide.
 
--   Harnessing the power of comprehensive data from three leading academic platforms to generate insightful and actionable findings on the digital divide.
+-   Harnessing the power of comprehensive data from three leading
+    academic platforms to generate insightful and actionable findings on
+    the digital divide.
 
 # 3. Objectives and Research Questions I
 
@@ -166,8 +200,8 @@ source("netplot_func.R")
 -   Understand the intellectual structure within the domain of the
     digital divide.
 
--   Examine the intellectual interactions,
-    and thematic relationships of European research components.
+-   Examine the intellectual interactions, and thematic relationships of
+    European research components.
 
 -   Explore the corporate digital divide among the collected corpus and
     identify trends and patterns within the literature.
@@ -176,12 +210,18 @@ source("netplot_func.R")
 
 ## Research Questions
 
--   Q1: How have the main trends, focus shifts, and key themes in European research on the digital divide evolved over time, and how do they reflect the current state of knowledge in this field?
+-   Q1: How have the main trends, focus shifts, and key themes in
+    European research on the digital divide evolved over time, and how
+    do they reflect the current state of knowledge in this field?
 
--   Q2: What are the intellectual interactions and thematic relationships among European research components on the digital divide, and how do they contribute to the identification of core subtopics and literature clusters?
+-   Q2: What are the intellectual interactions and thematic
+    relationships among European research components on the digital
+    divide, and how do they contribute to the identification of core
+    subtopics and literature clusters?
 
--   Q3: How are European studies addressing the corporate digital divide, and which unexplored topics within this domain warrant further examination?
-
+-   Q3: How are European studies addressing the corporate digital
+    divide, and which unexplored topics within this domain warrant
+    further examination?
 
 # 4. Data I
 
@@ -217,8 +257,9 @@ class(MM) <- c("bibliometrixDB", "data.frame")
 -   To track the evolution of the digital divide literature, the data
     was divided into three periods: 2000-2007, 2008-2015, and 2016-2022.
 
--   The R programming language environment(bibliometrix, igraph
-    packages) was used to carry out the analysis.
+-   The R programming language environment.
+    
+-   To ensure both replicability and reproducibility, a public repository named "dd_bibliometric_europe" has been established on GitHub.
 
 # 5. Methodology I
 
@@ -231,18 +272,21 @@ bibliometric analysis:
     bibliographic data and plays a vital role in evaluating research
     output.
 -   This technique allows researchers to uncover emerging trends
-    identifying knowledge gaps in specific domains and analyze a significant quantity of documents .
+    identifying knowledge gaps in specific domains and analyze a
+    significant quantity of documents .
 -   It offers three types of analysis: performance analysis, science
     mapping, and network analysis.
 
+
+
+```{r doc types, include=F}
 # 5. Methodology II
 
-\vspace{0.5cm}
+#\vspace{0.5cm}
 
 ## Distribution of Document Types Across Time Periods
 
 
-```{r doc types, include=TRUE}
 load(here("Script", "Environments",  "Tables&Graphs.RData"))
 
  ggplot(g_rates_2, aes(x = Period, y = as.numeric(Value), fill = Details)) +
@@ -296,14 +340,18 @@ grid.arrange(prod, cite, nrow= 1)
 
 \vspace{0.5cm}
 
+```{=tex}
+\begin{center}
+\includegraphics[width=1\textwidth]{pic_2.png}
+\end{center}
+```
 
-
-
-# 6. Performance Analysis IX
+# 6. Performance Analysis III
 
 ## 6.6. Countries Collaboration Network
 
 ```{r Network CO, include=T}
+
 load(here("Script", "Environments",  "Net4Mat.RData"))
 
 set.seed(40993)
@@ -312,19 +360,25 @@ col_CO <- invisible(net_CO <- netPlot(CC_CO_mat,
             type = "fruchterman", size.cex=TRUE, size=20, 
             remove.multiple=FALSE, labelsize=0.9,edgesize = 4, edges.min=1, label = T,
             cluster = "louvain", remove.isolates = T,
-            legend.position = "bottomright", legend.keywords = coutries_clus))
+            legend.position = "topleft", legend.keywords = coutries_clus))
 
 
 ```
 
+
+
+
+
+```{r Most cited refs, include=F}
+
 # 7. Science Mapping I
 
-Is a set of techniques and tools used to visualize and analyze the structure, relationships, and patterns within a scientific field or discipline.
-
+# Is a set of techniques and tools used to visualize and analyze the
+# structure, relationships, and patterns within a scientific field or
+# discipline.
 
 ## 7.1. Citation Analysis
 
-```{r Most cited refs, include=T}
 most_Lcr <- read_csv(here("Data", "Processed", "most_Lcr.csv"), show_col_types = F)
 
 kbl(most_Lcr, "latex",  caption = "Most Cited References 2000-2022") %>% 
@@ -335,11 +389,12 @@ kable_styling(bootstrap_options = "striped", full_width = F, font_size = 5,
   row_spec(0, bold=T) %>% add_footnote(c("Source: Author's elaboration", "TC: Times Cited"), notation ="number") 
 ```
 
-# 7. Science Mapping II
+# 7. Science Mapping I
 
 ## 7.2. Similarity measures
 
-Quantify similarity, connections and relationships among academic entities.
+Quantify similarity, connections and relationships among academic
+entities.
 
 Following @kammerer2021
 
@@ -356,13 +411,11 @@ Following @kammerer2021
 \includegraphics[width=0.6\textwidth]{pic_1.png}
 \end{center}
 ```
-
-# 7. Science Mapping III
+# 7. Science Mapping II
 
 \vspace{0.5cm}
 
 ### 7.2.1. Co-citations Analyisis
-
 
 ```{r Co_cite_P1,include=T}
 
@@ -377,7 +430,7 @@ net=netPlot(CC1_mat, n= 35, Title = "Co-Citation Network,  2000 - 2007", # Louva
 
 ```
 
-# 7. Science Mapping IV
+# 7. Science Mapping III
 
 ```{r Co_cite_P2,include=T}
 
@@ -393,7 +446,7 @@ net=netPlot(CC2_mat, n = 30, Title = "Co-Citation Network, 2008 - 2015",
 
 ```
 
-# 7. Science Mapping V
+# 7. Science Mapping IV
 
 ```{r Co_cite_P3,include=T}
 
@@ -408,21 +461,20 @@ net=netPlot(CC3_mat, n = 30, Title = "Co-Citation Network,  2016 - 2022",
 
 ```
 
-# 7. Science Mapping VI
+# 7. Science Mapping V
 
 ## Co-citation Networks Summary
 
 This three networks highlighted:
 
--   **Evolution of research focus:** From internet access and infrastructure to 
-the various facets of the digital divide.
+-   **Evolution of research focus:** From internet access and methodological focus to the various facets of the digital divide.
 
--   **Key authors and publications:** These form the knowledge foundations that shapes the discourse, broaden the comprehension of the literature, and guide future research.
+-   **Key publications and intellectual interactions:** Norris (2001), van Dijk (2005)
+Hargittai (2002) and van Deursen and van Dijk (2014) shape the discourse and the intellectual interactions.
 
--   **Emerging trends and themes:** These networks have assisted in uncovering growing themes that highlight research directions that require further examination.
+-   **Emerging trends and themes:** The third-level digital divide and its broader socio-economic ramifications. Uncovering a research gap remains unexplored concerning the corporate digital divide.
 
-
-# 7. Science Mapping VII
+# 7. Science Mapping VI
 
 ## 7.2.2. Bibliographic Coupling Analysis
 
@@ -438,7 +490,7 @@ net=netPlot(BC1_mat, n = 30, Title = "Bibliographic Coupling Network, 2000-2007"
             legend.keywords = keywords4)
 ```
 
-# 7. Science Mapping VIII
+# 7. Science Mapping VII
 
 ```{r Bib_coup_P2,include=T}
 
@@ -453,7 +505,7 @@ net=netPlot(BC2_mat, n = 30, Title = "Bibliographic Coupling Network, 2008-2015"
 
 ```
 
-# 7. Science Mapping IX
+# 7. Science Mapping VIII
 
 ```{r Bib_coup_P3,include=T}
 
@@ -468,25 +520,22 @@ net=netPlot(BC3_mat, n = 30, Title = "Bibliographic Coupling Network, 2016-2022"
 
 ```
 
-# 7. Science Mapping X
+# 7. Science Mapping IX
 
 ## Bibliographic coupling Networks Summary
 
 This three networks highlighted:
 
--   **Evolution of digital divide research:** Themes move from access and socio-demographic 
-factors to a more nuance understanding of skills, usage and emerging technologies.
+-   **Evolution of unsolved research problems:** From political, methodological challenges, regional analysis to cross-country analysis, measurements shortcomings and testing the theory.
 
--   **Emergence of key authors:** Represent the influential authors that contributed in the emergence of active areas of research in the development of the digital divide.
+-   **Emergence of key authors and publications:** Prominent publications by authors such as Van Dijk, van Deursen, and Livingstone, featured prominently across clusters, represent the intellectual interactions of the research front. 
 
--   **Growing complexities and specialization:** The diverse research themes in the networks reflect the expanding scope and depth of digital divide research.
+-   **Growing complexities and specialization:** The diverse research themes in the networks reflect the expanding scope and depth of digital divide research. The last BC network illustrates the current state of research.
 
-
+```{r co_word_P1,include=F}
 # 7. Science Mapping XI
 
 ## 7.2.2. Co-word Analysis
-
-```{r co_word_P1,include=F}
 
 load(here("Script", "Environments",  "Net4Mat.RData"))
 
@@ -504,8 +553,6 @@ net=netPlot(WCo_mat, n = 50, Title = "Co-Word Network 2000-2022",
 
 ```
 
-
-
 ```{r co_word_P2,include=F}
 # 7. Science Mapping XI
 load(here("Script", "Environments",  "Net4Mat.RData"))
@@ -517,8 +564,6 @@ net=netPlot(WCo2_mat, n = 30, Title = "Co-Word Network 2008-2015",
             cluster = "louvain")
 
 ```
-
-
 
 ```{r co_word_P3,include=F}
 # 7. Science Mapping XII
@@ -534,15 +579,17 @@ net=netPlot(WCo3_mat, n = 30, Title = "Co-Word Network 2016-2022",
 
 # Conclusions
 
--  We have seen the main trends and focus shifts: from access, infrastructure, and
-socio-economic factors, to skills, usage and other facets of the digital divide, this highlights the complexity and multidimensionality of the digital divide.
+-   The intellectual structure of the knowledge base and research front in the digital divide is evolving but it need further development regarding the use of latest technologies.
 
--   The networks showcase collaboration among prominent authors that consistently contribute in the field. The thematic relationships show interconnections of various aspects of the digital divide.
+-   The networks showcase intellectual interactions among prominent authors and publications that consistently contribute in the field. The thematic relationships
+    lead to the current state of research.
 
--   European studies have not extensively addressed the corporate digital divide, leaving room for further examination. The corporate digital divide might be incorporated into other literature streams, such as digital transformation and technology adoption.
+-   European studies have not extensively addressed the corporate
+    digital divide, leaving room for further examination. The corporate
+    digital divide might be incorporated into other literature streams,
+    such as digital transformation, technology adoption, and knowledge management.
 
-
-# Contact information 
+# Contact information
 
 \vspace{2cm}
 
@@ -550,17 +597,12 @@ Luis Carlos Castillo-Tellez
 
 \vspace{0.1cm}
 
-Guest Researcher
-
 PhD candidate in Global Studies
 
 University of Urbino - Italy
 
-email: l.castillotellez@campus.uniurb.it
-
-email: luiscarl@uni-bremen.de
-
-
+email:
+[l.castillotellez\@campus.uniurb.it](mailto:l.castillotellez@campus.uniurb.it){.email}
 
 # References {.allowframebreaks}
 
