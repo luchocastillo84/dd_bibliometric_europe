@@ -1,0 +1,584 @@
+---
+title: 'Bibliometric Analysis of European Research on Digital Divide: An Exploration of the Corporate Landscape'
+author: "Luis Carlos Castillo"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  beamer_presentation:
+    keep_tex: true
+    citation_package: natbib
+    includes:
+      in_header: mystyle3.tex
+  slidy_presentation: default
+  powerpoint_presentation: default
+institute: |
+  | Supervisor: Prof. Francesco Vidoli
+  | University of Urbino
+  | Ph.D. Program in Global Studies
+editor_options:
+  markdown:
+    wrap: 72
+bibliography: references.bib
+link-citations: yes
+linkcolor: myblue
+natbiboptions: round
+header-includes:
+  - \usepackage{etoolbox}
+  - \AtBeginEnvironment{thebibliography}{\scriptsize}
+biblio-style: "apalike"
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = F, message = F )
+kableExtra.auto_format = FALSE
+knitr.table.format = "latex"
+knitr::opts_knit$set(kable.force.latex = TRUE)
+```
+
+```{r Loading packages, include=FALSE}
+library(tidyverse)
+library(devtools)
+library(here)
+library(bibliometrix)
+library(stringr)
+library(readr)
+library(visdat)
+library(stringr)
+library(dplyr)
+library(readxl)
+library(janitor)
+library(ggplot2)
+library(gridExtra)
+options(kableExtra.latex.load_packages = FALSE)
+library(kableExtra)
+library(rmarkdown)
+library(tidytext)
+library(knitr)
+library(qwraps2)
+library(dplyr)
+library(tables)
+library(bibtex)
+library(igraph)
+library(RColorBrewer)
+library(Matrix)
+library(flextable)
+library(ggpubr)
+library(cowplot)
+library(ggeasy)
+library(Hmisc)
+library(gridGraphics)
+library(gridBase)
+
+```
+
+```{r Functions, include=FALSE}
+
+source("coc_mat_func.R")
+source("netplot_func.R")
+
+```
+
+# Content I
+
+1.  Digital Divide Overview
+
+2.  Motivation
+
+3.  Research Questions
+
+4.  Data
+
+5.  Bibliometric Analysis
+
+# Content II
+
+6.  Performance Analysis
+
+    1.  Publications Vs Citations
+    2.  Authors
+    3.  Articles
+    4.  Journals
+    5.  Affiliations/ Universities
+    6.  Countries
+
+7.  Science Mapping
+
+    1.  Citations Analysis
+    2.  Similarity Measures
+        1.  Co-citations Analysis
+        2.  Bibliographic Coupling
+
+8.  Conclusions
+
+# 1. The Digital Divide Overview I
+
+-   The digital divide is also known as the digital gap, inequalities,
+    or disparities.
+-   The interaction with other existing gaps such as income, education,
+    gender, age, and regional, among others [@ragnedda2017].
+-   The evolution of the concept has pointed out the phenomenon's
+    complexity and the effects on the different layers of society and
+    the economy [@vandijk2003; @ragnedda2017; @shakina2021].
+
+# 1. The Digital Divide Overview II
+
+-   Waves of Research
+    -   **The first wave:** Physical access to technology -\> possession
+        of computers and access to the internet [@norris2001;
+        @james2002; @castells2003].
+
+    -   **The second wave:** Usage of digital technologies and skills
+        [@hargittai2002b; @vandijk2005b; @vandijk2006c;
+        @vandeursen2011c].
+
+    -   **The third wave:** The disparities in tangible outcomes arise
+        from different forms of access to and usage of digital
+        technologies, emphasizing the ability to benefit from these
+        technologies in a data-driven market to enhance personal and
+        professional aspects [@ragnedda2017; @vandeursen2015a].
+
+# 1. The digital divide overview III
+
+## The corporate landscape
+
+-   Digital revolution -\> different aspects of daily activities -\> how
+    we conduct business.
+-   Disparity in digital capabilities and resources among businesses
+    [@shakina2021].
+-   The corporate digital divide is a topic that remains under-explored
+    [@pejicbach2013; @shakina2021].
+-   Understanding and addressing the divide, policymakers, and
+    businesses owners can target their efforts to ensure inclusive
+    digital transformation.
+
+# 2. Motivation
+
+-   Investigating the transformative effects of digital technologies on
+    society and economy, while highlighting both opportunities and
+    challenges.
+
+-   Aligning with the Digital Europe program's vision by devising
+    strategies to bridge the digital divide effectively.
+
+-   Diversifying bibliometric research by extending its application
+    beyond health sciences, computer science, and technology to
+    understand the digital divide.
+
+-   Harnessing the power of comprehensive data from three leading
+    academic platforms to generate insightful and actionable findings on
+    the digital divide.
+
+
+# 3. Research Questions 
+
+## Research Questions
+
+-   Q1: How have the main trends, focus shifts, and key themes in
+    European research on the digital divide evolved over time, and how
+    do they reflect the current state of knowledge in this field?
+
+-   Q2: What are the intellectual interactions and thematic
+    relationships among European research components on the digital
+    divide, and how do they contribute to the identification of core
+    subtopics and literature clusters?
+
+-   Q3: How are European studies addressing the corporate digital
+    divide, and which unexplored topics within this domain warrant
+    further examination?
+
+# 4. Data I
+
+```{r Total docs, include=F}
+MM <- read_csv(here("Data", "Processed", "M_EU.csv"))
+rownames(MM) <- MM$SRDI # using SR as row names
+class(MM) <- c("bibliometrixDB", "data.frame")
+```
+
+-   Specific search within titles and author keywords on the "*digital
+    divide*" merging data from the Web of Science, Scopus, and
+    Dimensions platforms.
+-   Search criteria: "digital divide\*" OR "digital inequalit\*" OR
+    "digital gap\*"
+-   The sample includes articles, book chapters, conferences, and
+    proceeding papers.
+-   Authors with European affiliations within the **business,
+    management, economics, technology, and computer science**
+    disciplines were included
+
+# 4. Data II
+
+-   After conducting a thorough data cleaning, a total of `r nrow(MM)`
+    unique documents from `r min(MM$PY)` to `r max(MM$PY)` were
+    incorporated.
+
+-   Number of Documents by Database
+
+    -   WoS:`r sum(MM$PF == "WOS")`
+    -   Scopus: `r sum(MM$PF == "SCO")`
+    -   Dimensions: `r sum(MM$PF == "DIM")`
+
+-   To track the evolution of the digital divide literature, the data
+    was divided into three periods: 2000-2007, 2008-2015, and 2016-2022.
+
+-   The R programming language environment.
+
+-   To ensure both replicability and reproducibility, a public
+    repository named "dd_bibliometric_europe" has been established on
+    GitHub.
+
+# 5. Methodology I
+
+## Bibliometric Analysis
+
+Following @donthu2021, @Aria2017, @ellegaard2015 and @Bornmann2015
+bibliometric analysis:
+
+-   Is a methodology that applies quantitative techniques to
+    bibliographic data and plays a vital role in evaluating research
+    output.
+-   This technique allows researchers to uncover emerging trends
+    identifying knowledge gaps in specific domains and analyze a
+    significant quantity of documents .
+-   It offers three types of analysis: performance analysis, science
+    mapping, and network analysis.
+
+```{r doc types, include=F}
+# 5. Methodology II
+
+#\vspace{0.5cm}
+
+## Distribution of Document Types Across Time Periods
+
+
+load(here("Script", "Environments",  "Tables&Graphs.RData"))
+
+ ggplot(g_rates_2, aes(x = Period, y = as.numeric(Value), fill = Details)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = Value, 
+                group = Details), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5,
+            size = 3) +
+  theme_minimal() +
+  labs(title = "Document Types by Periods",
+    x = "Periods",
+    y = "Documents",
+    fill = "Doc Types") +
+  scale_fill_manual(values = c("#012a4a", "#0466c8", "#468faf","#7d8597")) +
+  theme(legend.position = "top") +
+   theme(plot.title = element_text(hjust = 0.5)) +
+  theme(text = element_text(size = 14)) 
+```
+
+# 6. Performance Analysis I
+
+Is a descriptive interpretation of research constituents.
+
+## 6.1. Publications vs Citations
+
+\vspace{0.5cm}
+
+```{r Cite vs Prod}
+cite <- ggplot(tot_cite_pub, aes(x= PY, y= log(avg_cite_pery))) + 
+  geom_line() + 
+  geom_vline(xintercept = c(2008, 2015), linetype = "dotted",color = "blue") + 
+  labs(title = "B. Relative Change in the Average Citations per Year",
+       y = "Log Avg Citations", x ="Years") + 
+  theme(text = element_text(size = 14)) 
+
+prod <- ggplot(tot_cite_pub, aes(x= PY, y= totd)) + 
+  geom_line() + 
+  geom_vline(xintercept = c(2008, 2015),linetype = "dotted",color = "blue") + 
+  labs(title = "A. Total Publications per Year" ,
+       y = "Total Publications", x ="Years") + 
+  theme(text = element_text(size = 14)) 
+```
+
+```{r Panel cite vs prod, fig.height=7, fig.width=13}
+
+grid.arrange(prod, cite, nrow= 1)
+```
+
+# 6. Performance Analysis II
+
+\vspace{0.5cm}
+
+```{=tex}
+\begin{center}
+\includegraphics[width=1\textwidth]{pic_2.png}
+\end{center}
+```
+
+
+```{r Network CO, include=F}
+# 6. Performance Analysis III
+
+## 6.6. Countries Collaboration Network
+
+load(here("Script", "Environments",  "Net4Mat.RData"))
+
+set.seed(40993)
+col_CO <- invisible(net_CO <- netPlot(CC_CO_mat, 
+                                      n = 40, Title = "Country Collaboration Network",
+            type = "fruchterman", size.cex=TRUE, size=20, 
+            remove.multiple=FALSE, labelsize=0.9,edgesize = 4, edges.min=1, label = T,
+            cluster = "louvain", remove.isolates = T,
+            legend.position = "topleft", legend.keywords = coutries_clus))
+
+
+```
+
+```{r Most cited refs, include=F}
+
+# 7. Science Mapping I
+
+# Is a set of techniques and tools used to visualize and analyze the
+# structure, relationships, and patterns within a scientific field or
+# discipline.
+
+## 7.1. Citation Analysis
+
+most_Lcr <- read_csv(here("Data", "Processed", "most_Lcr.csv"), show_col_types = F)
+
+kbl(most_Lcr, "latex",  caption = "Most Cited References 2000-2022") %>% 
+   column_spec(2, latex_column_spec = "p{9cm}") %>% 
+  # column_spec(4, latex_column_spec = "p{5cm}") %>% 
+kable_styling(bootstrap_options = "striped", full_width = F, font_size = 5,
+              latex_options = "hold_position") %>%
+  row_spec(0, bold=T) %>% add_footnote(c("Source: Author's elaboration", "TC: Times Cited"), notation ="number") 
+```
+
+# 7. Science Mapping I
+
+## 7.2. Similarity measures
+
+Quantify similarity, connections and relationships among academic
+entities.
+
+Following @kammerer2021
+
+-   **Knowledge base:** cluster of academic publications in a research
+    field that are considered fundamental to the development and
+    understanding of the field.
+
+-   **Research front:** cluster of academic publications that refers to
+    emerging active areas of research considering themselves with a
+    similar unsolved research problem.
+
+```{=tex}
+\begin{center}
+\includegraphics[width=0.6\textwidth]{pic_1.png}
+\end{center}
+```
+# 7. Science Mapping II
+
+\vspace{0.5cm}
+
+### 7.2.1. Co-citations Analyisis
+
+```{r Co_cite_P1,include=T}
+
+load(here("Script", "Environments",  "Net4Mat.RData"))
+
+set.seed(30100)
+net=netPlot(CC1_mat, n= 35, Title = "Co-Citation Network,  2000 - 2007", # Louvain
+                type = "fruchterman", size.cex=TRUE, size=20, 
+                remove.multiple= FALSE, labelsize=0.9,edgesize = 4, edges.min=1, label = T,
+            cluster = "louvain", curved = F,
+            legend.position = "topright", legend.keywords = keywords1)
+
+```
+
+# 7. Science Mapping III
+
+```{r Co_cite_P2,include=T}
+
+load(here("Script", "Environments",  "Net4Mat.RData"))
+
+
+set.seed(1030034)
+net=netPlot(CC2_mat, n = 30, Title = "Co-Citation Network, 2008 - 2015", 
+            type = "fruchterman", size.cex=TRUE, size=20, 
+            remove.multiple=FALSE, labelsize=0.9,edgesize = 4, edges.min=1, label = T,
+            cluster = "louvain",
+            legend.position = "topright", legend.keywords = keywords2)
+
+```
+
+# 7. Science Mapping IV
+
+```{r Co_cite_P3,include=T}
+
+load(here("Script", "Environments",  "Net4Mat.RData"))
+
+set.seed(1003)
+net=netPlot(CC3_mat, n = 30, Title = "Co-Citation Network,  2016 - 2022", 
+            type = "fruchterman", size.cex=TRUE, size=20, label.color = F,
+            remove.multiple=FALSE, labelsize=0.7,edgesize = 4, edges.min=1, label = T,
+            cluster = "louvain", legend.position = "bottomright", 
+            legend.keywords = keywords3)
+
+```
+
+# 7. Science Mapping V
+
+## Co-citation Networks Summary
+
+This three networks highlighted:
+
+-   **Evolution of research focus:** From internet access and
+    methodological focus to the various facets of the digital divide.
+
+-   **Key publications and intellectual interactions:** Norris (2001),
+    van Dijk (2005) Hargittai (2002) and van Deursen and van Dijk (2014)
+    shape the discourse and the intellectual interactions.
+
+-   **Emerging trends and themes:** The third-level digital divide and
+    its broader socio-economic ramifications. Uncovering a research gap
+    remains unexplored concerning the corporate digital divide.
+
+# 7. Science Mapping VI
+
+## 7.2.2. Bibliographic Coupling Analysis
+
+```{r Bib_coup_P1,include=T}
+
+load(here("Script", "Environments",  "Net4Mat.RData"))
+
+set.seed(9001)
+net=netPlot(BC1_mat, n = 30, Title = "Bibliographic Coupling Network, 2000-2007", 
+            type = "fruchterman", size.cex=TRUE, size=20, 
+            remove.multiple=FALSE, labelsize=0.7,edgesize = 4, edges.min=1, label = T,
+            cluster = "louvain", remove.isolates = T, legend.position = "topleft", 
+            legend.keywords = keywords4)
+```
+
+# 7. Science Mapping VII
+
+```{r Bib_coup_P2,include=T}
+
+load(here("Script", "Environments",  "Net4Mat.RData"))
+
+set.seed(90001)
+net=netPlot(BC2_mat, n = 30, Title = "Bibliographic Coupling Network, 2008-2015", 
+            type = "fruchterman", size.cex=TRUE, size=15, 
+            remove.multiple=FALSE, labelsize=0.7,edgesize = 4, edges.min=1, label = T,
+            cluster = "louvain", legend.position = "bottomleft", 
+            legend.keywords = keywords5)
+
+```
+
+# 7. Science Mapping VIII
+
+```{r Bib_coup_P3,include=T}
+
+load(here("Script", "Environments",  "Net4Mat.RData"))
+
+set.seed(1001)
+net=netPlot(BC3_mat, n = 30, Title = "Bibliographic Coupling Network, 2016-2022", 
+            type = "fruchterman", size.cex=TRUE, size=15, 
+            remove.multiple=FALSE, labelsize=0.7,edgesize = 3, edges.min=1, label = T,
+            cluster = "louvain", legend.position = "bottomright", 
+            legend.keywords = keywords6)
+
+```
+
+# 7. Science Mapping IX
+
+## Bibliographic coupling Networks Summary
+
+This three networks highlighted:
+
+-   **Evolution of unsolved research problems:** From political,
+    methodological challenges, regional analysis to cross-country
+    analysis, measurements shortcomings and testing the theory.
+
+-   **Emergence of key authors and publications:** Prominent
+    publications by authors such as Van Dijk, van Deursen, and
+    Livingstone, featured prominently across clusters, represent the
+    intellectual interactions of the research front.
+
+-   **Growing complexities and specialization:** The diverse research
+    themes in the networks reflect the expanding scope and depth of
+    digital divide research. The last BC network illustrates the current
+    state of research.
+
+```{r co_word_P1,include=F}
+# 7. Science Mapping XI
+
+## 7.2.2. Co-word Analysis
+
+load(here("Script", "Environments",  "Net4Mat.RData"))
+
+# set.seed(6900012)
+# net=netPlot(WCo1_mat, n = 40, Title = "Co-Word Network 2000-2007", 
+#             type = "fruchterman", size.cex=TRUE, size=15, 
+#             remove.multiple=FALSE, labelsize=0.7,edgesize = 4, edges.min=1, label = T,
+#             cluster = "louvain")
+set.seed(6902012)
+net=netPlot(WCo_mat, n = 50, Title = "Co-Word Network 2000-2022", 
+            type = "fruchterman", size.cex=TRUE, size=15, 
+            remove.multiple=FALSE, labelsize=0.7,edgesize = 4, edges.min=1, label = T,
+            cluster = "louvain")
+
+
+```
+
+```{r co_word_P2,include=F}
+# 7. Science Mapping XI
+load(here("Script", "Environments",  "Net4Mat.RData"))
+
+set.seed(6900013)
+net=netPlot(WCo2_mat, n = 30, Title = "Co-Word Network 2008-2015", 
+            type = "fruchterman", size.cex=TRUE, size=15, 
+            remove.multiple=FALSE, labelsize=0.7,edgesize = 3, edges.min=5, label = T,
+            cluster = "louvain")
+
+```
+
+```{r co_word_P3,include=F}
+# 7. Science Mapping XII
+load(here("Script", "Environments",  "Net4Mat.RData"))
+
+set.seed(6900014)
+net=netPlot(WCo3_mat, n = 30, Title = "Co-Word Network 2016-2022", 
+            type = "fruchterman", size.cex=TRUE, size=15, 
+            remove.multiple=FALSE, labelsize=0.7,edgesize = 4, edges.min=1, label = T,
+            cluster = "louvain")
+
+```
+
+# Conclusions
+
+-   The intellectual structure of the knowledge base and research front
+    in the digital divide is evolving but it need further development
+    regarding the use of latest technologies.
+
+-   The networks showcase intellectual interactions among prominent
+    authors and publications that consistently contribute in the field.
+    The thematic relationships lead to the current state of research.
+
+-   European studies have not extensively addressed the corporate
+    digital divide, leaving room for further examination. The corporate
+    digital divide might be incorporated into other literature streams,
+    such as digital transformation, technology adoption, and knowledge
+    management.
+
+# Contact information
+
+\vspace{2cm}
+
+Luis Carlos Castillo-Tellez
+
+\vspace{0.1cm}
+
+PhD candidate in Global Studies
+
+University of Urbino - Italy
+
+email:
+[l.castillotellez\@campus.uniurb.it](mailto:l.castillotellez@campus.uniurb.it){.email}
+
+# References {.allowframebreaks}
+
+::: {#refs}
+:::
