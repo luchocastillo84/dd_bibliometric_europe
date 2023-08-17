@@ -34,7 +34,12 @@ Digital Divide: An Exploration of the Corporate Landscape*
 **Start and end of project:** 01.11.2022 - 15.02.2023
 
 ```{r nrows, include=FALSE}
-MM <- read.csv(here("Data", "Processed", "M_EU.csv"))
+load(here("Script", "Environments", "Normalize_env.RData"))
+
+
+MM <- M
+
+
 ```
 
 **Data summary:** This bibliometric aims to examine the state of the art
@@ -68,13 +73,11 @@ stage, the search criteria, the queries, and the formats downloaded are
 the following:
 
 ```{r wos, include=FALSE}
-wos_file <- c("wos_131222_1_740.txt")
 
-WW <- convert2df(here("Data", # processed data frame for bibliometrics
-                     "Raw", 
-                     wos_file), 
-                dbsource = "wos", 
-                format = "plaintext")
+load(here("Script", "Environments", "Biblio_data_bases.RData"))
+
+WW <- W
+
 ```
 
 #### Web of Science
@@ -112,11 +115,11 @@ categories of citation information, bibliographical information,
 abstracts, and keywords.
 
 ```{r scopus, include=FALSE}
-SS <- convert2df(here("Data",  # processed data frame for bibliometrics 37 columns
-                      "Raw", 
-                      "scopus_131222_1_1047.csv"),
-                 dbsource = "scopus", 
-                 format = "csv")
+
+load(here("Script", "Environments", "Biblio_data_bases.RData"))
+
+
+SS <- S
 ```
 
 -   **Searched Fields:** Keywords and Title
@@ -139,21 +142,16 @@ SS <- convert2df(here("Data",  # processed data frame for bibliometrics 37 colum
 
 ### Dimensions
 
+
 This database has a less developed graphic user interface. Even though
 it lets one choose the format, it does not let one choose the fields.
 However, the search can be customized using the Application Programming
 Interface API.
 
 ```{r dim, include=FALSE}
-dim_file <- c("dim_131222_1_882cr.csv",
-              "dim_131222_1_1265cr.csv",
-              "dim_131222_1_1551cr.csv")
+load(here("Script", "Environments", "Biblio_data_bases.RData"))
 
-DD <- convert2df(here("Data", # raw data frame 
-                     "Raw", 
-                     dim_file), 
-                dbsource = "dimensions", 
-                format = "csv")
+DD <- D
 ```
 
 -   **Searched Fields:** Title and Abstract.

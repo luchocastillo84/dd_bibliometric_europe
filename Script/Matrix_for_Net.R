@@ -95,7 +95,7 @@ LABEL <- removeDuplicatedLabels(trimws(CC_mat_labels))
 colnames(CC_mat) <- rownames(CC_mat) <-  LABEL
 
 set.seed(1001)
-net=netPlot(CC_mat, n = 50, Title = "Co-Citation Network Total louvain", 
+net=netPlot(CC_mat, Title = "Co-Citation Network Total louvain", 
             type = "auto", size.cex=TRUE, size=20, 
             labelsize=0.9,edgesize = 5, edges.min=1, label = T,
             cluster = "louvain")
@@ -120,12 +120,13 @@ keywords1 <- list(c("1. Global DD", "Access", "Civic Engagement"),
                  c("2. Skills", "Usage", "Complexities"),
                  c("3. Methodology", "Measurment", "Social Inclusion"),
                  c("4. Network Society", "Sociology", "Technology Effects"))
+keywords0 <- c("")
 set.seed(1001)
-net=netPlot(CC1_mat, n= 35, Title = "Co-Citation Network,  2000 - 2007", # Louvain
+net=netPlot(CC1_mat, n= 100, Title = "Co-Citation Network,  2000 - 2007", # Louvain
                 type = "fruchterman", size.cex=TRUE, size=20, 
                 remove.multiple= FALSE, labelsize=0.9,edgesize = 4, edges.min=1, label = T,
             cluster = "louvain", curved = F,
-            legend.position = "topright", legend.keywords = keywords1)
+            legend.position = "bottomleft", legend.keywords = keywords0)
 
 
 

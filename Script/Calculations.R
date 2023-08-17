@@ -579,15 +579,15 @@ NetMatrix <- biblioNetwork(data.frame(M), analysis = "collaboration",
 # Adoption diffusion\\b Quantitative research|Descriptive statistics|Inferential|equation|cluster|network analysis
 # quanti quantitative|regression|logistic|equation|measuring
 # quali "Qualitative research\\b|Case study\\b|Content analysis\\b|Thematic analysis\\b|Grounded theory\\b|Phenomenology\\b|Ethnography\\b|Discourse analysis\\b|interviews\\b|Focus groups\\b|Observations\\b|Field notes\\b|Reflexivity\\b|Triangulation\\b"
-topic <- which(grepl("Quantitative research\\b|Descriptive statistics\\b|Inferential statistics\\b|Hypothesis testing\\b|Experimental design\\b|Control group\\b|Treatment group\\b|Random assignment\\b|Random sampling\\b|Correlational research\\b|Regression analysis\\b|Analysis of variance\\b|Chi-square test\\b|t-test\\b|Effect size\\b|Confidence intervals\\b|Statisti\\b|Survey research\\b|Closed-ended questions\\b|Likert scale\\b|Factor analysis\\b|Reliability\\b|Validity\\b|cluster analyisis\\b", N$AB, ignore.case = T))
+topic <- which(grepl("governmen", N$TI, ignore.case = T))
 topic <- which(grepl("dividend", M$DE, ignore.case = T))
 i <- topic
-toJSON(M[i, c(2, 1, 3, 17, 14,25, 13, 6, 8, 12, 22, 29, 23)], pretty= T)
+toJSON(N[i, c(2, 1, 3, 17, 14,25, 13, 6, 8, 12, 22, 29, 23)], pretty= T)
 explore <- N[topic,]
 explore <- explore[, c(25, 13, 12, 1, 2, 8, 23)]
 explore <- explore[, c(2 ,4, 6)]
 
-
+library()
 
 journals_data <- data.frame(
   Rank = 1:10,
@@ -702,7 +702,7 @@ legend("topleft", legend = legend_labels, col = colors[1:2], pch = 20, bty = "n"
 g <- graph_from_adjacency_matrix(COLun1_mat, mode = "undirected", weighted = TRUE)
 wc <- cluster_louvain(g)
 
-cluster1_keywords <- c("Topic1", "Topic2", "Topic3")
+cluster1_keywords <- c("Topic1", "TopicE", "Topic3")
 cluster2_keywords <- c("Topic4", "Topic5", "Topic6")
 
 colors <- rainbow(max(membership(wc)))
@@ -722,7 +722,12 @@ legend("topleft", legend = legend_labels, col = colors[1:3], pch = 20, bty = "n"
 
 
 
-
+# Convert the last letter to lowercase
+lowercase_last_letter <- sapply(cluster1_keywords, function(x) {
+  last_letter <- substr(x, nchar(x), nchar(x))
+  modified_last_letter <- tolower(last_letter)
+  paste0(substr(x, 1, nchar(x) - 1), modified_last_letter)
+})
 
 
 
